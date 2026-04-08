@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>প্রো ড্যাশবোর্ড</title>
+    <style>
+        body {
+            background-color: #0d1117; /* ডার্ক ব্যাকগ্রাউন্ড */
+            color: #58a6ff; /* নীল টেক্সট */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            border: 1px solid #30363d;
+            padding: 40px;
+            border-radius: 12px;
+            background: #161b22;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .btn {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #2ea043;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>সিস্টেম কন্ট্রোল প্যানেল</h1>
+        <p>বর্তমান স্ট্যাটাস: <span style="color: #3fb950;">অ্যাক্টিভ</span></p>
+        <button class="btn" onclick="alert('অভিনন্দন! আপনার প্রথম প্রো-সাইট কাজ করছে।')">অ্যাকশন রান করুন</button>
+    </div>
+</body>
+</html>
+
+
