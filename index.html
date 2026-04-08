@@ -1,18 +1,91 @@
-<div class="container" style="text-align: center; padding: 40px 0;">
-    <h2 style="color: var(--neon); margin-bottom: 30px;">মোক ফলো কৰক</h2>
-    <div style="display: flex; justify-content: center; gap: 30px; font-size: 3rem;">
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সজল | আলটিমেট প্রোফাইল</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --neon: #00f2ff; --bg: #020617; --glass: rgba(255, 255, 255, 0.03); }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: white; overflow-x: hidden; }
+
+        #scroll-bar { position: fixed; top: 0; left: 0; height: 4px; background: var(--neon); z-index: 2000; }
+        nav { background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(15px); padding: 15px; position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid var(--glass); display: flex; justify-content: space-around; }
+        nav a { color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; }
+        .typewriter { color: var(--neon); font-weight: bold; border-right: 2px solid var(--neon); }
+
+        .container { padding: 80px 20px; max-width: 1100px; margin: auto; }
+        .skill-item { margin-bottom: 20px; background: var(--glass); padding: 15px; border-radius: 10px; }
+        .bar-outer { background: #1e293b; height: 8px; border-radius: 5px; margin-top: 10px; }
+        .bar-inner { background: var(--neon); height: 100%; width: 0; transition: 2.4s ease-out; }
+
+        .social-links { display: flex; justify-content: center; gap: 40px; font-size: 3.5rem; margin-top: 40px; }
+        .social-links a { transition: 0.4s; }
+        .social-links a:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px var(--neon)); }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--glass); color: #64748b; }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-bar"></div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Hi, I'm <span class="typewriter" id="typing"></span></h1>
+        <p style="color: #94a3b8; max-width: 600px;">টারম্যাক্স লাভার এবং একজন প্রো ওয়েব ডেভেলপার।</p>
         
-        <a href="https://www.facebook.com/share/1LGZC2Dzw7/" target="_blank" style="color: #1877f2; transition: 0.3s;">
-            <i class="fab fa-facebook"></i>
-        </a>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/1LGZC2Dzw7/" target="_blank" style="color: #1877f2;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.tiktok.com/@Danger99901" target="_blank" style="color: #ffffff;"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/sojol2216" target="_blank" style="color: #e4405f;"><i class="fab fa-instagram"></i></a>
+        </div>
+    </section>
 
-        <a href="https://www.tiktok.com/@Danger99901" target="_blank" style="color: #ff0050; transition: 0.3s;">
-            <i class="fab fa-tiktok"></i>
-        </a>
-
-        <a href="https://www.instagram.com/sojol2216" target="_blank" style="color: #e4405f; transition: 0.3s;">
-            <i class="fab fa-instagram"></i>
-        </a>
-
+    <div class="container" id="skills">
+        <h2 style="text-align: center; margin-bottom: 40px; color: var(--neon);">My Mastery</h2>
+        <div class="skill-item"><span>Termux & Linux (95%)</span><div class="bar-outer"><div class="bar-inner" style="width: 95%;"></div></div></div>
+        <div class="skill-item"><span>HTML & CSS (90%)</span><div class="bar-outer"><div class="bar-inner" style="width: 90%;"></div></div></div>
     </div>
-</div>
+
+    <footer id="contact">
+        <h2 style="color: var(--neon);">সজল - @mdsojol-80</h2>
+        <p>&copy; 2026 | Developed by Sojol in Termux</p>
+    </footer>
+
+    <script>
+        const words = ["মো: সজল", "Web Developer", "Termux Expert"];
+        let wordIdx = 0, charIdx = 0, isDeleting = false;
+        function type() {
+            const current = words[wordIdx];
+            document.getElementById("typing").textContent = isDeleting ? current.substring(0, charIdx-1) : current.substring(0, charIdx+1);
+            charIdx += isDeleting ? -1 : 1;
+            if (!isDeleting && charIdx === current.length) { isDeleting = true; setTimeout(type, 2000); }
+            else if (isDeleting && charIdx === 0) { isDeleting = false; wordIdx = (wordIdx + 1) % words.length; setTimeout(type, 500); }
+            else { setTimeout(type, isDeleting ? 100 : 200); }
+        }
+
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("scroll-bar").style.width = (winScroll / height) * 100 + "%";
+        };
+
+        window.onload = () => {
+            type();
+            const bars = document.querySelectorAll('.bar-inner');
+            bars.forEach(bar => { let w = bar.style.width; bar.style.width = '0'; setTimeout(() => bar.style.width = w, 500); });
+        };
+    </script>
+</body>
+</html>
