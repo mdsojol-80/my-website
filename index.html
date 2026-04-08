@@ -1,10 +1,81 @@
-<button onclick="myFunction()" style="background-color: green; color: white;">অ্যাকশন রান করুন</button>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সজল | প্রোফাইল</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0f172a; color: white; line-height: 1.6; }
+        
+        /* Navbar */
+        nav { background: rgba(30, 41, 59, 0.9); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; text-align: center; }
+        nav a { color: #38bdf8; text-decoration: none; margin: 0 15px; font-weight: bold; }
 
-<script>
-function myFunction() {
-  alert("সফলভাবে অ্যাকশন রান হয়েছে! অভিনন্দন সজল।");
-}
-</script>
+        /* Hero Section */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); text-align: center; padding: 20px; }
+        .hero h1 { font-size: 3rem; color: #38bdf8; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; }
 
+        /* Card Section */
+        .container { padding: 80px 20px; max-width: 1000px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
+        .card { background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); border-color: #38bdf8; }
+        .card i { font-size: 2rem; color: #38bdf8; margin-bottom: 15px; }
 
+        /* Button */
+        .btn { background: #38bdf8; color: #0f172a; padding: 12px 25px; border: none; border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn:hover { background: white; box-shadow: 0 0 20px #38bdf8; }
+
+        footer { text-align: center; padding: 40px; color: #64748b; border-top: 1px solid #334155; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#">হোম</a>
+        <a href="#about">আমার সম্পর্কে</a>
+        <a href="#services">সেবা সমূহ</a>
+    </nav>
+
+    <section class="hero">
+        <h1>আমি মো: সজল</h1>
+        <p>একজন স্বপ্নদ্রষ্টা ওয়েব ডেভেলপার। আমি টারম্যাক্স এবং গিটহাব ব্যবহার করে আধুনিক ওয়েবসাইট তৈরি করতে ভালোবাসি।</p>
+        <button class="btn" onclick="welcome()">প্রোফাইল দেখুন</button>
+    </section>
+
+    <div class="container" id="about">
+        <h2 style="text-align: center; font-size: 2rem; color: #38bdf8;">আমার দক্ষতাসমূহ</h2>
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-code"></i>
+                <h3>HTML/CSS</h3>
+                <p>সুন্দর এবং রেসপন্সিভ ওয়েবসাইট ডিজাইন করতে পারি।</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-terminal"></i>
+                <h3>Termux</h3>
+                <p>অ্যান্ড্রয়েড ডিভাইসে লিনাক্স এনভায়রনমেন্ট ব্যবহার করে কোডিং করি।</p>
+            </div>
+            <div class="card">
+                <i class="fab fa-github"></i>
+                <h3>GitHub</h3>
+                <p>ভার্সন কন্ট্রোল এবং প্রজেক্ট হোস্টিংয়ে আমি দক্ষ।</p>
+            </div>
+        </div>
+    </div>
+
+    <footer id="services">
+        <p>&copy; 2026 সজল। সর্বস্বত্ব সংরক্ষিত।</p>
+    </footer>
+
+    <script>
+        function welcome() {
+            alert("সজলের প্রিমিয়াম প্যানেলে আপনাকে স্বাগতম!");
+        }
+    </script>
+</body>
+</html>
 
