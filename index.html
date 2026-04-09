@@ -3,115 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Md Sojol Official | FF Tool</title>
+    <title>MD SOJOL Official</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0b0e11; color: white; font-family: 'Segoe UI', sans-serif; line-height: 1.6; }
-        
-        /* Header & Nav */
-        header { background: #1c2128; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00ffcc; }
-        .logo { color: #00ffcc; font-size: 20px; font-weight: bold; text-transform: uppercase; }
-        nav a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; }
+        body { background: #0b0e11; color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        header { background: #1c2128; padding: 15px; border-bottom: 2px solid #00ffcc; display: flex; justify-content: space-between; align-items: center; }
+        .logo { color: #00ffcc; font-weight: bold; padding-left: 20px; font-size: 20px; }
+        nav a { color: white; text-decoration: none; margin-right: 15px; font-size: 16px; font-weight: bold; }
         nav a:hover { color: #00ffcc; }
-
-        /* Main Section */
-        .hero { padding: 40px 20px; text-align: center; background: linear-gradient(to bottom, #1c2128, #0b0e11); }
-        .hero h1 { font-size: 28px; margin-bottom: 10px; }
-        .hero p { color: #00ffcc; font-size: 14px; margin-bottom: 30px; }
-
-        /* Sensi Tool Container */
-        .sensi-container { max-width: 400px; margin: 0 auto 40px auto; background: #161b22; padding: 25px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
-        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: none; text-align: center; font-size: 16px; }
-        button { width: 100%; background: #00ffcc; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        button:hover { background: #00ccaa; transform: translateY(-2px); }
-
-        /* Results */
+        .container { padding: 40px 20px; }
+        .sensi-box { background: #161b22; padding: 30px; border-radius: 15px; border: 1px solid #00ffcc; max-width: 400px; margin: auto; box-shadow: 0 0 15px rgba(0,255,204,0.2); }
+        input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: none; outline: none; text-align: center; }
+        button { background: #00ffcc; color: black; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 90%; }
+        button:hover { transform: scale(1.02); box-shadow: 0 0 10px #00ffcc; }
         #result { margin-top: 20px; display: none; text-align: left; background: #0d1117; padding: 15px; border-radius: 10px; border: 1px dashed #00ffcc; }
-        .stat { display: flex; justify-content: space-between; margin: 8px 0; border-bottom: 1px solid #30363d; padding-bottom: 5px; }
-        .val { color: #00ffcc; font-weight: bold; }
-
-        /* Terminal Section */
-        .terminal-box { max-width: 600px; margin: 20px auto; background: black; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; border: 1px solid #333; text-align: left; }
-        
-        footer { padding: 20px; font-size: 12px; color: #666; text-align: center; }
     </style>
 </head>
 <body>
-
     <header>
         <div class="logo">MD SOJOL</div>
         <nav>
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
         </nav>
     </header>
-
-    <div class="hero">
-        <h1>Welcome To My Website</h1>
-        <p>GAMER | CONTENT CREATOR | WEB DEVELOPER</p>
-
-        <div class="sensi-container">
-            <h3 style="margin-bottom: 15px; font-size: 18px;">FF SENSITIVITY GENERATOR</h3>
+    <div class="container">
+        <h1 style="margin-bottom: 10px;">Welcome To My Website</h1>
+        <p style="color: #00ffcc; margin-bottom: 30px;">GAMER | CONTENT CREATOR | WEB DEVELOPER</p>
+        <div class="sensi-box">
+            <h3 style="margin-bottom: 15px;">FF SENSI GENERATOR</h3>
             <input type="text" id="phoneModel" placeholder="মোবাইলের মডেল লিখুন...">
-            <button onclick="generateSensi()">GET SETTINGS</button>
-
+            <button onclick="generate()">GET SETTINGS</button>
             <div id="result">
-                <h4 id="displayModel" style="color: #00ffcc; text-align:center; margin-bottom: 10px;"></h4>
-                <div class="stat">General: <span class="val" id="gen"></span></div>
-                <div class="stat">Red Dot: <span class="val" id="red"></span></div>
-                <div class="stat">2X Scope: <span class="val" id="2x"></span></div>
-                <div class="stat">4X Scope: <span class="val" id="4x"></span></div>
-                <div class="stat">Fire Button: <span class="val" id="fbutton"></span></div>
+                <p>General: <span id="gen" style="color:#00ffcc"></span></p>
+                <p>Red Dot: <span id="red" style="color:#00ffcc"></span></p>
+                <p>Fire Button: <span id="fire" style="color:#00ffcc">42%</span></p>
             </div>
         </div>
-
-        <div class="terminal-box">
-            <div>[SYSTEM ONLINE...]</div>
-            <div>Type 'help' for commands.</div>
-            <div style="color: #00ffcc;">> Running: Sensitivity_Module_v2.0</div>
-        </div>
     </div>
-
-    <footer>
-        © 2026 Md Sojol Official Website
-    </footer>
-
     <script>
-        function generateSensi() {
-            let model = document.getElementById('phoneModel').value;
-            if(model === "") { alert("আগে মোবাইলের নাম লিখুন!"); return; }
-            document.getElementById('displayModel').innerText = "Settings for " + model;
-            document.getElementById('gen').innerText = Math.floor(Math.random() * (200 - 197 + 1) + 197);
-            document.getElementById('red').innerText = Math.floor(Math.random() * (195 - 180 + 1) + 180);
-            document.getElementById('2x').innerText = Math.floor(Math.random() * (185 - 170 + 1) + 170);
-            document.getElementById('4x').innerText = Math.floor(Math.random() * (170 - 150 + 1) + 150);
-            document.getElementById('fbutton').innerText = Math.floor(Math.random() * (48 - 40 + 1) + 40) + "%";
+        function generate() {
+            if(document.getElementById('phoneModel').value === "") { alert("দয়া করে মডেল লিখুন!"); return; }
+            document.getElementById('gen').innerText = Math.floor(Math.random() * (100 - 95 + 1) + 95);
+            document.getElementById('red').innerText = Math.floor(Math.random() * (95 - 85 + 1) + 85);
             document.getElementById('result').style.display = 'block';
         }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
