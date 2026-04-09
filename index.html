@@ -3,56 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MD SOJOL Official</title>
+    <title>FF Panel Pro | Ultra Headshot & 200% Sensi</title>
+    
+    <meta name="description" content="Get the world's best Free Fire Panel settings. Auto Headshot, 200% Sensitivity, and DPI settings for all Android & iOS devices. No Ban, 100% Safe.">
+    <meta name="keywords" content="Free Fire Panel, FF Sensi, Auto Headshot Tool, 200 Sensitivity, DPI Changer, FF Headshot Trick, One Tap Settings">
+
     <style>
-        body { background: #0b0e11; color: white; font-family: sans-serif; text-align: center; margin: 0; }
-        header { background: #1c2128; padding: 15px; border-bottom: 2px solid #00ffcc; display: flex; justify-content: space-between; align-items: center; }
-        .logo { color: #00ffcc; font-weight: bold; padding-left: 20px; font-size: 20px; }
-        nav a { color: white; text-decoration: none; margin-right: 15px; font-size: 16px; font-weight: bold; }
-        nav a:hover { color: #00ffcc; }
-        .container { padding: 40px 20px; }
-        .sensi-box { background: #161b22; padding: 30px; border-radius: 15px; border: 1px solid #00ffcc; max-width: 400px; margin: auto; box-shadow: 0 0 15px rgba(0,255,204,0.2); }
-        input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: none; outline: none; text-align: center; }
-        button { background: #00ffcc; color: black; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 90%; }
-        button:hover { transform: scale(1.02); box-shadow: 0 0 10px #00ffcc; }
-        #result { margin-top: 20px; display: none; text-align: left; background: #0d1117; padding: 15px; border-radius: 10px; border: 1px dashed #00ffcc; }
+        body { background: #0b1116; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin: 0; line-height: 1.6; }
+        header { background: #161b22; padding: 15px; border-bottom: 2px solid #ff0055; display: flex; justify-content: center; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        nav a { color: #ff0055; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover { color: white; text-shadow: 0 0 10px #ff0055; }
+        
+        .hero { padding: 80px 20px; background: linear-gradient(45deg, #0b1116, #161b22); border-bottom: 2px solid #222; }
+        .hero h1 { font-size: 35px; color: #ff0055; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .sensi-card { background: #1c2128; padding: 40px 20px; border-radius: 25px; border: 1px solid #ff0055; max-width: 500px; margin: -60px auto 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        input { width: 85%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #333; background: #0d1117; color: white; font-size: 16px; outline: none; text-align: center; }
+        button { background: #ff0055; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; font-size: 16px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(255,0,85,0.3); }
+        
+        #result { display: none; margin-top: 30px; text-align: left; background: #0b0e11; padding: 25px; border-radius: 15px; border-left: 5px solid #ff0055; }
+        .stat-line { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 18px; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .value { color: #ff0055; font-weight: bold; }
+
+        .content-area { max-width: 900px; margin: auto; padding: 40px 20px; text-align: left; }
+        .section { background: #161b22; padding: 30px; border-radius: 20px; margin-bottom: 30px; border: 1px solid #222; }
+        h2 { color: #ff0055; font-size: 26px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        h3 { color: #00ffcc; font-size: 20px; }
+        p { color: #cbd5e0; font-size: 16px; }
+        ul { color: #cbd5e0; }
+        li { margin-bottom: 10px; }
+
+        .faq-box { background: #0d1117; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 3px solid #00ffcc; }
+        
+        footer { padding: 40px; background: #0d1117; border-top: 1px solid #222; color: #555; font-size: 13px; }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="logo">MD SOJOL</div>
         <nav>
             <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="about.html">About Dev</a>
+            <a href="#">Contact</a>
         </nav>
     </header>
-    <div class="container">
-        <h1 style="margin-bottom: 10px;">Welcome To My Website</h1>
-        <p style="color: #00ffcc; margin-bottom: 30px;">GAMER | CONTENT CREATOR | WEB DEVELOPER</p>
-        <div class="sensi-box">
-            <h3 style="margin-bottom: 15px;">FF SENSI GENERATOR</h3>
-            <input type="text" id="phoneModel" placeholder="মোবাইলের মডেল লিখুন...">
-            <button onclick="generate()">GET SETTINGS</button>
-            <div id="result">
-                <p>General: <span id="gen" style="color:#00ffcc"></span></p>
-                <p>Red Dot: <span id="red" style="color:#00ffcc"></span></p>
-                <p>Fire Button: <span id="fire" style="color:#00ffcc">42%</span></p>
-            </div>
+
+    <div class="hero">
+        <h1>FF PANEL PRO v3.5</h1>
+        <p>Advanced Auto Headshot & Sensitivity Optimizer</p>
+    </div>
+
+    <div class="sensi-card">
+        <h3>Activate Panel Settings</h3>
+        <input type="text" id="phone" placeholder="Enter Device (Ex: Vivo, Redmi, iPhone)">
+        <button onclick="activate()">Get 200% Sensi</button>
+
+        <div id="result">
+            <h4 style="text-align:center; color:#00ffcc; margin-top:0;">CONFIGURATION READY!</h4>
+            <div class="stat-line"><span>General</span> <span class="value" id="v1"></span></div>
+            <div class="stat-line"><span>Red Dot</span> <span class="value" id="v2"></span></div>
+            <div class="stat-line"><span>2X Scope</span> <span class="value" id="v3"></span></div>
+            <div class="stat-line"><span>Fire Button</span> <span class="value">45%</span></div>
+            <div class="stat-line"><span>DPI Recommended</span> <span class="value">580</span></div>
+            <p style="font-size:11px; color:#888;">Status: <span style="color:#00ffcc;">Bypass Active</span></p>
         </div>
     </div>
+
+    <div class="content-area">
+        <div class="section">
+            <h2>ফ্রি ফায়ার প্যানেল কি এবং কেন ব্যবহার করবেন?</h2>
+            <p><strong>Free Fire Panel</strong> হলো এমন একটি কনফিগারেশন সিস্টেম যা আপনার মোবাইলের টাচ সেন্সিটিভিটিকে গেমের ডিফল্ট লিমিটের বাইরে নিয়ে যায়। সাধারণ গেম সেটিংসে আমরা কেবল ১০০ পর্যন্ত সেন্সিটিভিটি পাই, কিন্তু বড় বড় প্রো প্লেয়াররা থার্ড পার্টি অপ্টিমাইজেশন ব্যবহার করে তাদের মুভমেন্ট স্পিড বাড়িয়ে নেয়।</p>
+            <p>আমাদের এই অনলাইন টুলটি আপনার ফোনের প্রসেসর এবং র‍্যাম অনুযায়ী সেরা <strong>DPI (Dots Per Inch)</strong> সেটিংস ক্যালকুলেট করে দেয়।</p>
+        </div>
+
+        <div class="section">
+            <h2>Auto Headshot মারার ৩টি গোপন টিপস</h2>
+            <ul>
+                <li><strong>Perfect Drag:</strong> সবসময় ফায়ার বাটনটিকে হালকা করে উপরের দিকে ড্র্যাগ করুন। সোজা ড্র্যাগ করার চেয়ে 'J' শেইপ ড্র্যাগ বেশি কার্যকর।</li>
+                <li><strong>Sensitivity Balance:</strong> জেনারেল সেন্সিটিভিটি সবসময় ১৮০-২০০ এর মধ্যে রাখার চেষ্টা করুন (আমাদের প্যানেল অনুযায়ী)।</li>
+                <li><strong>Stable FPS:</strong> গেম খেলার সময় ফোনের ক্যাশ মেমোরি ক্লিয়ার রাখুন যাতে ফ্রেম ড্রপ না হয়।</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <div class="faq-box">
+                <h3>১. এই প্যানেল ব্যবহার করলে কি আইডি ব্যান হবে?</h3>
+                <p>উত্তর: না। এটি কোনো গেম ফাইল হ্যাক করে না, এটি কেবল আপনার ফোনের সেটিংস অপ্টিমাইজ করার গাইড প্রদান করে। তাই এটি ১০০% সেফ।</p>
+            </div>
+            <div class="faq-box">
+                <h3>২. এটি কি সব ফোনে কাজ করবে?</h3>
+                <p>উত্তর: হ্যাঁ, এটি এন্ড্রয়েড এবং আইফোন উভয় ডিভাইসের জন্যই ডিজাইন করা হয়েছে।</p>
+            </div>
+            <div class="faq-box">
+                <h3>৩. DPI বাড়ানো কি ফোনের জন্য ক্ষতিকর?</h3>
+                <p>উত্তর: অতিরিক্ত DPI বাড়ানো ঠিক নয়। আমাদের প্যানেল আপনাকে যে লিমিট দিবে (যেমন ৫৮০-৬০০), তার মধ্যে থাকলে ফোনের কোনো ক্ষতি হবে না।</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>সেরা গেমিং এক্সপেরিয়েন্সের জন্য DPI গাইড</h2>
+            <p>আপনার ফোন যদি ৩/৪ জিবি র‍্যামের হয়, তবে DPI সর্বোচ্চ ৪১০ রাখুন। যদি ৬/৮ জিবি বা তার বেশি হয়, তবে আপনি ৫০০ থেকে ৬০০ পর্যন্ত DPI ব্যবহার করে সুপার ফাস্ট মুভমেন্ট পেতে পারেন। আমাদের <strong>FF Sensi Tool</strong> আপনাকে আপনার ফোনের মডেল অনুযায়ী সঠিক ডাটা প্রদান করবে।</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Gaming Panel Pro | Best Auto Headshot Settings Tool | No Copyright
+    </footer>
+
     <script>
-        function generate() {
-            if(document.getElementById('phoneModel').value === "") { alert("দয়া করে মডেল লিখুন!"); return; }
-            document.getElementById('gen').innerText = Math.floor(Math.random() * (100 - 95 + 1) + 95);
-            document.getElementById('red').innerText = Math.floor(Math.random() * (95 - 85 + 1) + 85);
+        function activate() {
+            let phone = document.getElementById('phone').value;
+            if(phone === "") { alert("মোবাইলের নাম লিখুন!"); return; }
+            
+            document.getElementById('v1').innerText = Math.floor(Math.random() * (200 - 190 + 1) + 190);
+            document.getElementById('v2').innerText = Math.floor(Math.random() * (198 - 185 + 1) + 185);
+            document.getElementById('v3').innerText = Math.floor(Math.random() * (190 - 170 + 1) + 170);
+            
             document.getElementById('result').style.display = 'block';
+            window.scrollTo(0, 500);
         }
     </script>
 </body>
 </html>
-
-
-
-
-
