@@ -3,47 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF Sensitivity Tool | MD SOJOL</title>
+    <title>Md Sojol Official | FF Tool</title>
     <style>
-        body { background: #0b1014; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .container { max-width: 400px; margin: auto; background: #161b22; padding: 30px; border-radius: 20px; border: 2px solid #00ffcc; box-shadow: 0 0 15px #00ffcc; }
-        h1 { color: #00ffcc; font-size: 22px; text-transform: uppercase; letter-spacing: 2px; }
-        input { width: 85%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; outline: none; text-align: center; font-size: 16px; background: #fff; color: #000; }
-        button { background: #00ffcc; color: black; border: none; padding: 12px 35px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
-        button:hover { background: #00ccaa; transform: scale(1.05); }
-        #result { margin-top: 25px; display: none; text-align: left; background: #0d1117; padding: 20px; border-radius: 15px; border: 1px dashed #00ffcc; }
-        .stat { margin: 12px 0; font-size: 18px; display: flex; justify-content: space-between; border-bottom: 1px solid #30363d; padding-bottom: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0b0e11; color: white; font-family: 'Segoe UI', sans-serif; line-height: 1.6; }
+        
+        /* Header & Nav */
+        header { background: #1c2128; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00ffcc; }
+        .logo { color: #00ffcc; font-size: 20px; font-weight: bold; text-transform: uppercase; }
+        nav a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; }
+        nav a:hover { color: #00ffcc; }
+
+        /* Main Section */
+        .hero { padding: 40px 20px; text-align: center; background: linear-gradient(to bottom, #1c2128, #0b0e11); }
+        .hero h1 { font-size: 28px; margin-bottom: 10px; }
+        .hero p { color: #00ffcc; font-size: 14px; margin-bottom: 30px; }
+
+        /* Sensi Tool Container */
+        .sensi-container { max-width: 400px; margin: 0 auto 40px auto; background: #161b22; padding: 25px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: none; text-align: center; font-size: 16px; }
+        button { width: 100%; background: #00ffcc; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #00ccaa; transform: translateY(-2px); }
+
+        /* Results */
+        #result { margin-top: 20px; display: none; text-align: left; background: #0d1117; padding: 15px; border-radius: 10px; border: 1px dashed #00ffcc; }
+        .stat { display: flex; justify-content: space-between; margin: 8px 0; border-bottom: 1px solid #30363d; padding-bottom: 5px; }
         .val { color: #00ffcc; font-weight: bold; }
+
+        /* Terminal Section */
+        .terminal-box { max-width: 600px; margin: 20px auto; background: black; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; border: 1px solid #333; text-align: left; }
+        
+        footer { padding: 20px; font-size: 12px; color: #666; text-align: center; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>FF SENSI PRO</h1>
-        <p style="color: #8b949e;">মোবাইল মডেল লিখে সেনসিভিটি নিন</p>
-        <input type="text" id="phoneModel" placeholder="যেমন: Vivo Y20, Redmi Note 10...">
-        <br>
-        <button onclick="generateSensi()">GENERATE</button>
-        <div id="result">
-            <h4 id="displayModel" style="color: #00ffcc; text-align:center; margin-bottom: 15px;"></h4>
-            <div class="stat">General: <span class="val" id="gen"></span></div>
-            <div class="stat">Red Dot: <span class="val" id="red"></span></div>
-            <div class="stat">2X Scope: <span class="val" id="2x"></span></div>
-            <div class="stat">4X Scope: <span class="val" id="4x"></span></div>
-            <div class="stat">Sniper Scope: <span class="val" id="sniper"></span></div>
-            <div class="stat" style="border:none;">Fire Button: <span class="val" id="fbutton"></span></div>
+
+    <header>
+        <div class="logo">MD SOJOL</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Welcome To My Website</h1>
+        <p>GAMER | CONTENT CREATOR | WEB DEVELOPER</p>
+
+        <div class="sensi-container">
+            <h3 style="margin-bottom: 15px; font-size: 18px;">FF SENSITIVITY GENERATOR</h3>
+            <input type="text" id="phoneModel" placeholder="মোবাইলের মডেল লিখুন...">
+            <button onclick="generateSensi()">GET SETTINGS</button>
+
+            <div id="result">
+                <h4 id="displayModel" style="color: #00ffcc; text-align:center; margin-bottom: 10px;"></h4>
+                <div class="stat">General: <span class="val" id="gen"></span></div>
+                <div class="stat">Red Dot: <span class="val" id="red"></span></div>
+                <div class="stat">2X Scope: <span class="val" id="2x"></span></div>
+                <div class="stat">4X Scope: <span class="val" id="4x"></span></div>
+                <div class="stat">Fire Button: <span class="val" id="fbutton"></span></div>
+            </div>
+        </div>
+
+        <div class="terminal-box">
+            <div>[SYSTEM ONLINE...]</div>
+            <div>Type 'help' for commands.</div>
+            <div style="color: #00ffcc;">> Running: Sensitivity_Module_v2.0</div>
         </div>
     </div>
+
+    <footer>
+        © 2026 Md Sojol Official Website
+    </footer>
+
     <script>
         function generateSensi() {
             let model = document.getElementById('phoneModel').value;
-            if(model === "") { alert("মোবাইলের নাম লিখুন!"); return; }
+            if(model === "") { alert("আগে মোবাইলের নাম লিখুন!"); return; }
             document.getElementById('displayModel').innerText = "Settings for " + model;
             document.getElementById('gen').innerText = Math.floor(Math.random() * (200 - 197 + 1) + 197);
-            document.getElementById('red').innerText = Math.floor(Math.random() * (195 - 185 + 1) + 185);
+            document.getElementById('red').innerText = Math.floor(Math.random() * (195 - 180 + 1) + 180);
             document.getElementById('2x').innerText = Math.floor(Math.random() * (185 - 170 + 1) + 170);
-            document.getElementById('4x').innerText = Math.floor(Math.random() * (175 - 160 + 1) + 160);
-            document.getElementById('sniper').innerText = Math.floor(Math.random() * (130 - 100 + 1) + 100);
-            document.getElementById('fbutton').innerText = Math.floor(Math.random() * (46 - 39 + 1) + 39) + "%";
+            document.getElementById('4x').innerText = Math.floor(Math.random() * (170 - 150 + 1) + 150);
+            document.getElementById('fbutton').innerText = Math.floor(Math.random() * (48 - 40 + 1) + 40) + "%";
             document.getElementById('result').style.display = 'block';
         }
     </script>
