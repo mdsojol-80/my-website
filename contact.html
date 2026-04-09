@@ -5,20 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us | FF Panel Support</title>
     <style>
-        body { background: #0b1116; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 20px; }
-        header { background: #161b22; padding: 15px; border-bottom: 2px solid #ff0055; display: flex; justify-content: center; align-items: center; margin-bottom: 40px; }
-        nav a { color: #ff0055; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; }
+        body { background: #0b1116; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 0; }
+        header { background: #161b22; padding: 15px; border-bottom: 2px solid #ff0055; display: flex; justify-content: center; align-items: center; }
+        nav a { color: #ff0055; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        .contact-container { padding: 50px 20px; max-width: 500px; margin: auto; }
+        .card { background: #1c2128; padding: 40px 20px; border-radius: 25px; border: 1px solid #333; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        h1 { color: #ff0055; margin-bottom: 10px; font-size: 28px; }
+        p { color: #888; margin-bottom: 30px; font-size: 15px; }
         
-        .contact-card { background: #1c2128; max-width: 500px; margin: auto; padding: 40px 20px; border-radius: 20px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 { color: #ff0055; margin-bottom: 30px; }
-        p { color: #cbd5e0; margin-bottom: 25px; font-size: 16px; }
+        .link-box { display: flex; align-items: center; justify-content: center; background: #0d1117; color: #00ffcc; text-decoration: none; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #222; font-weight: bold; transition: 0.3s; gap: 10px; }
+        .link-box:hover { background: #ff0055; color: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,0,85,0.3); }
         
-        .social-link { display: flex; align-items: center; justify-content: center; background: #0d1117; color: white; text-decoration: none; padding: 15px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #00ffcc; transition: 0.3s; font-weight: bold; }
-        .social-link:hover { transform: translateX(10px); background: #222; }
+        .email-section { margin-top: 25px; padding: 15px; background: rgba(0, 255, 204, 0.05); border-radius: 10px; border: 1px dashed #00ffcc; word-wrap: break-word; }
+        .email-section span { display: block; color: #00ffcc; font-size: 14px; margin-top: 5px; }
         
-        .email-box { margin-top: 30px; padding: 15px; background: rgba(255, 0, 85, 0.1); border-radius: 10px; color: #ff0055; font-weight: bold; }
-        .back-btn { display: inline-block; margin-top: 30px; color: #888; text-decoration: none; font-size: 14px; }
-        .back-btn:hover { color: white; }
+        .back-home { display: inline-block; margin-top: 25px; color: #555; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .back-home:hover { color: #ff0055; }
     </style>
 </head>
 <body>
@@ -31,24 +33,27 @@
         </nav>
     </header>
 
-    <div class="contact-card">
-        <h1>Contact Support</h1>
-        <p>আপনার যদি কোনো সমস্যা হয় বা নতুন কোনো সেটিংস প্রয়োজন হয়, তবে নিচের মাধ্যমে আমাদের সাথে যোগাযোগ করুন।</p>
-        
-        <a href="https://t.me/yourusername" class="social-link">Join Our Telegram (Settings Update)</a>
-        <a href="https://youtube.com/yourchannel" class="social-link">Subscribe YouTube (New Panels)</a>
-        <a href="https://facebook.com/yourpage" class="social-link">Follow Facebook Page</a>
+    <div class="contact-container">
+        <div class="card">
+            <h1>Contact Us</h1>
+            <p>যেকোনো সমস্যা বা প্যানেল আপডেটের জন্য আমাদের সাথে যোগাযোগ করুন</p>
+            
+            <a href="https://t.me/sojol1278ain" target="_blank" class="link-box">
+                <span>Join Telegram Channel</span>
+            </a>
 
-        <div class="email-box">
-            Email: official@ffpanel.com
+            <a href="https://www.facebook.com/share/1Gv6aD7yXb/" target="_blank" class="link-box">
+                <span>Follow on Facebook</span>
+            </a>
+
+            <div class="email-section">
+                <strong>Official Email:</strong>
+                <span>mdshojolhossain04@gmail.com</span>
+            </div>
+            
+            <a href="index.html" class="back-home">← Back to Home</a>
         </div>
-
-        <a href="index.html" class="back-btn">← ফিরে যান হোম পেজে</a>
     </div>
-
-    <footer style="margin-top: 50px; color: #444; font-size: 12px;">
-        © 2026 Gaming Panel Support System
-    </footer>
 
 </body>
 </html>
