@@ -1,49 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-
-<meta name="description" content="Md Sojol Official Website - Gamer, Content Creator, and Web Developer from Bangladesh.">
-<meta name="keywords" content="Md Sojol, Sojol_80, Gamer, Web Developer Bangladesh, Free Fire, Sojol Official">
-<meta name="author" content="Md Sojol">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Md Sojol Official</title>
-    <link rel="stylesheet" href="style.css">
+    <title>FF Sensitivity Tool | MD SOJOL</title>
+    <style>
+        body { background: #0b1014; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 400px; margin: auto; background: #161b22; padding: 30px; border-radius: 20px; border: 2px solid #00ffcc; box-shadow: 0 0 15px #00ffcc; }
+        h1 { color: #00ffcc; font-size: 22px; text-transform: uppercase; letter-spacing: 2px; }
+        input { width: 85%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; outline: none; text-align: center; font-size: 16px; background: #fff; color: #000; }
+        button { background: #00ffcc; color: black; border: none; padding: 12px 35px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
+        button:hover { background: #00ccaa; transform: scale(1.05); }
+        #result { margin-top: 25px; display: none; text-align: left; background: #0d1117; padding: 20px; border-radius: 15px; border: 1px dashed #00ffcc; }
+        .stat { margin: 12px 0; font-size: 18px; display: flex; justify-content: space-between; border-bottom: 1px solid #30363d; padding-bottom: 5px; }
+        .val { color: #00ffcc; font-weight: bold; }
+    </style>
 </head>
 <body>
-
-<header>
-    <div class="logo">MD SOJOL</div>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="services.html">Services</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="contact.html">Contact</a>
-    </nav>
-</header>
-
-<section class="hero">
-    <div>
-        <h1>Welcome To My Website</h1>
-        <p>GAMER | CONTENT CREATOR | WEB DEVELOPER</p>
+    <div class="container">
+        <h1>FF SENSI PRO</h1>
+        <p style="color: #8b949e;">মোবাইল মডেল লিখে সেনসিভিটি নিন</p>
+        <input type="text" id="phoneModel" placeholder="যেমন: Vivo Y20, Redmi Note 10...">
+        <br>
+        <button onclick="generateSensi()">GENERATE</button>
+        <div id="result">
+            <h4 id="displayModel" style="color: #00ffcc; text-align:center; margin-bottom: 15px;"></h4>
+            <div class="stat">General: <span class="val" id="gen"></span></div>
+            <div class="stat">Red Dot: <span class="val" id="red"></span></div>
+            <div class="stat">2X Scope: <span class="val" id="2x"></span></div>
+            <div class="stat">4X Scope: <span class="val" id="4x"></span></div>
+            <div class="stat">Sniper Scope: <span class="val" id="sniper"></span></div>
+            <div class="stat" style="border:none;">Fire Button: <span class="val" id="fbutton"></span></div>
+        </div>
     </div>
-</section>
-
-<section class="section" id="system">
-    <h2>Interactive Terminal</h2>
-    <div id="system-terminal" style="background:#000; color:#0f0; padding:20px; text-align:left; border-radius:10px; height:200px; overflow-y:auto; font-family:monospace; border:1px solid #0f0;">
-        <div>[SYSTEM ONLINE...]</div>
-        <div>Type 'help' for commands.</div>
-    </div>
-</section>
-
-<footer>
-    <p>© 2026 Md Sojol Official Website</p>
-</footer>
-
+    <script>
+        function generateSensi() {
+            let model = document.getElementById('phoneModel').value;
+            if(model === "") { alert("মোবাইলের নাম লিখুন!"); return; }
+            document.getElementById('displayModel').innerText = "Settings for " + model;
+            document.getElementById('gen').innerText = Math.floor(Math.random() * (200 - 197 + 1) + 197);
+            document.getElementById('red').innerText = Math.floor(Math.random() * (195 - 185 + 1) + 185);
+            document.getElementById('2x').innerText = Math.floor(Math.random() * (185 - 170 + 1) + 170);
+            document.getElementById('4x').innerText = Math.floor(Math.random() * (175 - 160 + 1) + 160);
+            document.getElementById('sniper').innerText = Math.floor(Math.random() * (130 - 100 + 1) + 100);
+            document.getElementById('fbutton').innerText = Math.floor(Math.random() * (46 - 39 + 1) + 39) + "%";
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
+
 
 
 
