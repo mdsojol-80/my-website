@@ -3,126 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOJOL | SYSTEM BREACHED</title>
+    <title>SOJOL_OS_ULTIMATE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
-        :root { --hacker-green: #0f0; --dim-green: #003b00; --bg-black: #000; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Share Tech Mono', monospace; cursor: crosshair; }
-        body { background: var(--bg-black); color: var(--hacker-green); overflow-x: hidden; }
-
-        /* Matrix Canvas */
-        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
-
-        /* Scanning Line Effect */
-        body::before { content: " "; display: block; position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(0, 255, 0, 0.1); z-index: 100; animation: scan 4s linear infinite; pointer-events: none; }
-        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
-
-        nav { background: rgba(0, 0, 0, 0.9); padding: 15px; border-bottom: 2px solid var(--hacker-green); display: flex; justify-content: space-around; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 0 15px var(--dim-green); }
-        nav a { color: var(--hacker-green); text-decoration: none; font-size: 14px; text-transform: uppercase; }
-        nav a:hover { text-shadow: 0 0 10px var(--hacker-green); }
-
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        :root { --green: #0f0; --bg: #000; --red: #ff0000; }
+        body, html { height: 100%; margin: 0; background: var(--bg); color: var(--green); font-family: 'Share Tech Mono', monospace; overflow: hidden; }
         
-        /* Glitch Effect */
-        .glitch { font-size: 4rem; font-weight: bold; position: relative; text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75); animation: glitch 500ms infinite; }
-        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-3px, 3px); } 40% { transform: translate(-3px, -3px); } 60% { transform: translate(3px, 3px); } 80% { transform: translate(3px, -3px); } 100% { transform: translate(0); } }
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.2; }
+        
+        .terminal-window {
+            width: 90%; max-width: 900px; height: 80vh; margin: 5vh auto;
+            border: 1px solid var(--green); background: rgba(0, 10, 0, 0.95);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2); display: flex; flex-direction: column;
+        }
 
-        .status-box { background: var(--dim-green); border: 1px solid var(--hacker-green); padding: 20px; border-radius: 5px; margin-top: 30px; max-width: 600px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); }
-        .typing-text { font-size: 1.2rem; }
+        .top-bar { background: var(--green); color: black; padding: 5px 15px; display: flex; justify-content: space-between; font-weight: bold; font-size: 12px; }
+        
+        #output { flex-grow: 1; padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.8; }
+        
+        .input-line { display: flex; padding: 10px 20px; background: rgba(0, 20, 0, 0.5); border-top: 1px solid var(--dim); }
+        input { background: transparent; border: none; color: var(--green); outline: none; width: 100%; font-family: inherit; font-size: 16px; }
 
-        .social-links { margin-top: 40px; display: flex; gap: 30px; }
-        .social-links a { font-size: 2.5rem; color: var(--hacker-green); transition: 0.3s; }
-        .social-links a:hover { transform: scale(1.2); text-shadow: 0 0 20px var(--hacker-green); }
-
-        .container { padding: 80px 20px; max-width: 1000px; margin: auto; }
-        .hacker-card { border: 1px solid var(--hacker-green); padding: 30px; margin-bottom: 20px; position: relative; overflow: hidden; }
-        .hacker-card::after { content: "CONFIDENTIAL"; position: absolute; top: 10px; right: 10px; font-size: 10px; opacity: 0.5; }
-
-        footer { text-align: center; padding: 40px; border-top: 1px solid var(--hacker-green); font-size: 12px; }
+        .progress-bar { width: 0%; height: 10px; background: var(--green); margin-top: 10px; transition: width 0.1s; }
+        .glitch { animation: glitch 1s infinite; }
+        @keyframes glitch { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix"></canvas>
+<canvas id="matrix"></canvas>
 
-    <nav>
-        <a href="#bio">[ ROOT_BIO ]</a>
-        <a href="#skills">[ SKILLS_LOG ]</a>
-        <a href="#contact">[ TRACE_ME ]</a>
-    </nav>
-
-    <section class="hero">
-        <h1 class="glitch">SOJOL_ID_80</h1>
-        <div class="status-box">
-            <p class="typing-text" id="typewriter"></p>
-        </div>
-        
-        <div class="social-links">
-            <a href="https://www.facebook.com/share/1LGZC2Dzw7/" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.tiktok.com/@Danger99901" target="_blank"><i class="fab fa-tiktok"></i></a>
-            <a href="https://www.instagram.com/sojol2216" target="_blank"><i class="fab fa-instagram"></i></a>
-        </div>
-    </section>
-
-    <div class="container" id="bio">
-        <div class="hacker-card">
-            <h2 style="margin-bottom: 15px;">> WHO_AM_I?</h2>
-            <p>আমি সজল। সিস্টেমের ভেতরে থাকা লজিক আর বাইরের ডিজাইন—দুই জগতেই আমার অবাধ বিচরণ। টারম্যাক্স আমার অস্ত্র, আর কোড আমার ভাষা। আমি কোনো সাধারণ ইউজার নই, আমি সিস্টেমের পেছনের কারিগর।</p>
-        </div>
-
-        <div class="hacker-card" id="skills">
-            <h2 style="margin-bottom: 15px;">> CAPABILITIES</h2>
-            <p>[■■■■■■■■■□] TERMUX_PENETRATION 90%</p>
-            <p>[■■■■■■■■□□] WEB_MANIPULATION 80%</p>
-            <p>[■■■■■■■■■■] SYSTEM_LOYALTY 100%</p>
-        </div>
+<div class="terminal-window">
+    <div class="top-bar">
+        <span>SOJOL_CORE_SYSTEM_V3.0</span>
+        <span>STATUS: ACTIVE</span>
     </div>
+    <div id="output">
+        <div class="glitch">[SYSTEM INITIALIZED...]</div>
+        <div>[CONNECTED TO HOST: MDSOJOL-80]</div>
+        <div>Type <span style="color:white">'help'</span> to see what I can do.</div>
+    </div>
+    <div class="input-line">
+        <span>root@sojol:~$ &nbsp;</span>
+        <input type="text" id="commandInput" autofocus autocomplete="off">
+    </div>
+</div>
 
-    <footer>
-        <p>ENCRYPTED BY SOJOL | IP: TRACED | 2026 &copy;</p>
-    </footer>
+<audio id="typeSound" src="https://www.soundjay.com/communication/typewriter-key-1.mp3"></audio>
 
-    <script>
-        // Matrix Rain
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%'\"#&_(),.;:?!\\|{}<>[]^~";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+<script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const letters = "010101SOJOLHACKER$#@&*";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
 
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#0f0";
-            ctx.font = fontSize + "px monospace";
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#0f0"; ctx.font = fontSize + "px monospace";
+        for (let i = 0; i < drops.length; i++) {
+            const text = letters.charAt(Math.floor(Math.random() * letters.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
         }
-        setInterval(drawMatrix, 33);
+    }
+    setInterval(drawMatrix, 35);
 
-        // Typewriter Bio
-        const text = "> Access Granted... \n> Loading Profile: SOJOL... \n> Status: Online... \n> Target: Future Developer...";
+    const input = document.getElementById('commandInput');
+    const output = document.getElementById('output');
+    const sound = document.getElementById('typeSound');
+
+    input.addEventListener('keydown', (e) => {
+        sound.currentTime = 0;
+        sound.play(); // টাইপিং সাউন্ড
+        
+        if (e.key === 'Enter') {
+            const cmd = input.value.toLowerCase().trim();
+            printLine(`> ${cmd}`, "white");
+
+            if (cmd === 'help') {
+                printLine("COMMANDS: 'bio', 'social', 'hack', 'matrix', 'clear', 'secret'");
+            } else if (cmd === 'hack') {
+                startHack();
+            } else if (cmd === 'bio') {
+                printLine("ACCESSING DATA... [NAME: SOJOL] [RANK: ALPHA DEVELOPER]");
+            } else if (cmd === 'social') {
+                printLine("FACEBOOK: mdsojol-80 | TIKTOK: Danger99901");
+            } else if (cmd === 'secret') {
+                printLine("ENTER ACCESS KEY...");
+            } else if (cmd === '1234') { // আপনার সিক্রেট পাসওয়ার্ড
+                document.documentElement.style.setProperty('--green', 'cyan');
+                printLine("THEME CHANGED TO CYBER-BLUE", "cyan");
+            } else if (cmd === 'clear') {
+                output.innerHTML = "<div>[SYSTEM CLEARED]</div>";
+            } else {
+                printLine("[ERROR]: INVALID_COMMAND", "red");
+            }
+
+            input.value = "";
+            output.scrollTop = output.scrollHeight;
+        }
+    });
+
+    function printLine(text, color = "#0f0") {
+        const div = document.createElement('div');
+        div.style.color = color;
+        div.innerHTML = text;
+        output.appendChild(div);
+    }
+
+    function startHack() {
+        printLine("[STARTING BRUTE FORCE ATTACK...]", "red");
         let i = 0;
-        function type() {
-            if (i < text.length) {
-                document.getElementById("typewriter").innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
-                i++;
-                setTimeout(type, 50);
+        const bar = document.createElement('div');
+        bar.className = "progress-bar";
+        output.appendChild(bar);
+        
+        const interval = setInterval(() => {
+            i += 5;
+            bar.style.width = i + "%";
+            if (i >= 100) {
+                clearInterval(interval);
+                printLine("[SUCCESS]: NASA DATABASE ACCESSED! (Just Kidding 😉)", "yellow");
             }
-        }
-        window.onload = type;
-    </script>
+        }, 100);
+    }
+</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
