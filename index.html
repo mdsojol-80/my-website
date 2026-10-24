@@ -38,6 +38,16 @@ iframe{width:100%;height:900px;border:1px solid var(--line);border-radius:14px;b
 footer{text-align:center;padding:25px;color:#727b91;border-top:1px solid #ffffff12;font-size:12px}
 [hidden]{display:none!important}
 @media(max-width:600px){header{padding:16px 5%}main{padding:25px 13px 45px}.panel{padding:14px}.featuregrid{grid-template-columns:1fr}.tabs{gap:5px}.tab{font-size:12px}iframe{height:800px}}
+
+.social-footer{margin-top:35px;padding:30px 6%;text-align:center;border-top:1px solid #ffffff12;background:linear-gradient(180deg,#090b12,#101323)}
+.social-footer .logo{font-size:22px;font-weight:800;letter-spacing:1px;color:#f5f7ff}
+.social-footer .logo span{color:#8b5cf6}
+.social-footer p{color:#8992a8;font-size:13px}
+.social-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px auto;max-width:650px}
+.social-links a{color:#dce5ff;text-decoration:none;padding:10px 14px;border:1px solid #30364a;border-radius:10px;background:#141827;transition:border-color .2s,color .2s}
+.social-links a:hover{border-color:#8b5cf6;color:#22d3ee}
+.social-footer .copyright{font-size:11px;margin-top:22px}
+
 </style>
 </head>
 <body>
@@ -101,7 +111,20 @@ footer{text-align:center;padding:25px;color:#727b91;border-top:1px solid #ffffff
     <div class="feature"><span>🔊</span><b>Voice playback</b><p>Read text aloud using supported voices on your device.</p></div>
   </section>
 </main>
-<footer>VYRONIX AI Studio · Creative tools in one workspace</footer>
+
+<footer class="social-footer">
+  <div class="logo">VYRONIX <span>AI</span></div>
+  <p>Creative tools in one workspace.</p>
+  <nav class="social-links" aria-label="VYRONIX social links">
+    <a href="https://www.facebook.com/share/19sxStDtHV/" target="_blank" rel="noopener noreferrer">Facebook</a>
+    <a href="https://t.me/sojol1278ain" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a href="https://www.youtube.com/@VyronixOfficial9" target="_blank" rel="noopener noreferrer">YouTube</a>
+    <a href="https://github.com/mdsojol-80/my-website" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="mailto:mdshojolhossain04@gmail.com">Contact Email</a>
+  </nav>
+  <p class="copyright">© 2026 VYRONIX AI Studio · All rights reserved.</p>
+</footer>
+
 <script>
 document.querySelectorAll(".tab").forEach(button=>{
   button.addEventListener("click",()=>{
