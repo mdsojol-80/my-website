@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<title>VYRONIX Cyber Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#080b12;--panel:#111827;--line:#283449;--text:#eef4ff;--muted:#9aa9c0;--cyan:#22d3ee;--purple:#8b5cf6;--green:#34d399}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#171b38,var(--bg) 65%);color:var(--text);font:15px system-ui,Arial,sans-serif}
+header{padding:18px 5%;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:#080b12ed;position:sticky;top:0;z-index:5}
+.logo{font-weight:900;letter-spacing:1.5px;font-size:19px}.logo span{color:var(--cyan)}
+.status{font-size:11px;color:var(--green);border:1px solid #235b49;border-radius:20px;padding:7px}
+main{max-width:1200px;margin:auto;padding:25px 15px 60px}
+.hero{text-align:center;padding:25px 0 30px}
+.eyebrow{color:var(--cyan);letter-spacing:3px;font-size:11px;font-weight:800}
+h1{font-size:clamp(32px,7vw,58px);margin:14px 0;background:linear-gradient(90deg,#fff,#a78bfa,#22d3ee);color:transparent;background-clip:text;line-height:1.12}
+.hero p,.muted{color:var(--muted);line-height:1.7}
+.hero p{max-width:650px;margin:auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.stat,.card,.workspace{background:linear-gradient(145deg,#141c2b,#0e1420);border:1px solid var(--line);border-radius:15px;padding:15px}
+.stat strong{display:block;font-size:22px;color:var(--cyan)}
+.stat small{color:var(--muted)}
+.search{margin:20px 0}
+input,textarea,select{width:100%;background:#090e18;border:1px solid var(--line);border-radius:10px;padding:12px;color:white;font:inherit}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:1px solid var(--cyan)}
+button{cursor:pointer;font:inherit}
+button:disabled{opacity:.5}
+.btn{border:1px solid var(--line);background:#182237;color:white;padding:10px 13px;border-radius:9px}
+.btn.primary{background:linear-gradient(100deg,#7046d8,#246eaa);border:0;font-weight:750}
+.btn:hover,.tool:hover{border-color:var(--cyan)}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:4px 0 15px}
+.categories button{white-space:nowrap}
+.categories .active{background:#343064;border-color:var(--purple)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tool{border:1px solid var(--line);background:#111827;border-radius:14px;padding:16px;cursor:pointer;min-height:140px}
+.tool .ico{font-size:25px}
+.tool h3{font-size:15px;margin:10px 0 5px}
+.tool p{color:var(--muted);font-size:12px;line-height:1.6;margin:0}
+.workspace{margin-top:22px;min-height:300px}
+.workspace h2{margin-top:0}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.row>*{flex:1}
+.output{white-space:pre-wrap;overflow-wrap:anywhere;background:#080d15;border:1px solid var(--line);padding:13px;border-radius:10px;min-height:55px;margin-top:13px;color:#b6f6df;font:13px ui-monospace,monospace}
+.note{font-size:12px;line-height:1.7;color:#d5c8ff;background:#201b35;border:1px solid #443568;padding:12px;border-radius:10px;margin:12px 0}
+.tag{display:inline-block;font-size:10px;color:var(--cyan);border:1px solid #285064;padding:3px 7px;border-radius:20px}
+footer{text-align:center;padding:25px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+[hidden]{display:none!important}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{gap:6px}.stat{padding:10px}.tool{padding:12px}}
+@media(max-width:400px){.grid{grid-template-columns:1fr}.status{font-size:9px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">VYRONIX <span>CYBER LAB</span></div>
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<a href="index.html" style="color:#22d3ee;text-decoration:none;border:1px solid #283449;padding:8px 10px;border-radius:9px;font-size:12px">← Back to Studio</a>
+<div class="status">● LOCAL DEMO LAB</div>
+</div>
+</header>
+<main>
+<section class="hero">
+<div class="eyebrow">LEARN · ANALYZE · DEFEND</div>
+<h1>Cybersecurity<br>Exploration Lab</h1>
+<p>এক জায়গায় Cybersecurity Tools, Ethical Hacking Simulations, Account Security এবং Digital Analysis। নিজের ল্যাবের মধ্যে শিখুন ও পরীক্ষা করুন।</p>
+</section>
+
+<div class="stats">
+<div class="stat"><strong id="toolCount">16</strong><small>Interactive Tools</small></div>
+<div class="stat"><strong id="doneCount">0</strong><small>Tools Opened</small></div>
+<div class="stat"><strong>LOCAL</strong><small>Demo Environment</small></div>
+</div>
+
+<div class="search">
+<input id="search" placeholder="🔎 Search: Facebook, hash, network, password..." aria-label="Search tools">
+</div>
+<div class="categories" id="categories">
+<button class="btn active" data-cat="All">All Tools</button>
+<button class="btn" data-cat="Network">Network</button>
+<button class="btn" data-cat="Security">Account Security</button>
+<button class="btn" data-cat="Crypto">Cryptography</button>
+<button class="btn" data-cat="Analysis">Analysis</button>
+</div>
+
+<div class="grid" id="grid">
+<div class="tool" data-name="Cyber Terminal Command Linux" data-cat="Analysis" data-tool="terminal"><span class="ico">⌨️</span><h3>Cyber Terminal</h3><p>Interactive sample commands and simulated terminal.</p></div>
+<div class="tool" data-name="Network Scanner Port Scan IP" data-cat="Network" data-tool="network"><span class="ico">🌐</span><h3>Network Scan Simulator</h3><p>View fictional hosts and sample port states.</p></div>
+<div class="tool" data-name="Password Strength Checker" data-cat="Security" data-tool="password"><span class="ico">🔐</span><h3>Password Checker</h3><p>Estimate password strength locally.</p></div>
+<div class="tool" data-name="SHA256 Hash Generator Cryptography" data-cat="Crypto" data-tool="hash"><span class="ico">#️⃣</span><h3>SHA-256 Generator</h3><p>Generate a real hash in your browser.</p></div>
+<div class="tool" data-name="Base64 Encoder Decoder" data-cat="Crypto" data-tool="base64"><span class="ico">🔁</span><h3>Base64 Toolkit</h3><p>Encode or decode text.</p></div>
+<div class="tool" data-name="URL Link Analyzer Phishing" data-cat="Analysis" data-tool="url"><span class="ico">🔗</span><h3>URL Analyzer</h3><p>Inspect link structure and suspicious patterns.</p></div>
+<div class="tool" data-name="Phone Number Country Code Format" data-cat="Analysis" data-tool="phone"><span class="ico">📱</span><h3>Phone Number Checker</h3><p>Check formatting and country code only.</p></div>
+<div class="tool" data-name="Facebook Hacking Account Security Recovery" data-cat="Security" data-tool="facebook"><span class="ico">🛡️</span><h3>Facebook Security Lab</h3><p>Account recovery and phishing awareness.</p></div>
+<div class="tool" data-name="WhatsApp Hacking Security OTP" data-cat="Security" data-tool="whatsapp"><span class="ico">🟢</span><h3>WhatsApp Security Lab</h3><p>Protect verification codes and linked devices.</p></div>
+<div class="tool" data-name="imo Hacking Account Security" data-cat="Security" data-tool="imo"><span class="ico">💬</span><h3>imo Security Lab</h3><p>Recognize fake verification requests.</p></div>
+<div class="tool" data-name="Instagram Telegram Gmail Account Security" data-cat="Security" data-tool="accounts"><span class="ico">🔒</span><h3>Account Safety Center</h3><p>Instagram, Telegram and Gmail safety checklist.</p></div>
+<div class="tool" data-name="Phishing Fake Login Detection" data-cat="Analysis" data-tool="phishing"><span class="ico">🎣</span><h3>Phishing Awareness</h3><p>Learn to identify suspicious messages.</p></div>
+<div class="tool" data-name="Web Security SQL Injection XSS" data-cat="Analysis" data-tool="web"><span class="ico">🧪</span><h3>Web Security Demo</h3><p>Safe examples of input validation and XSS prevention.</p></div>
+<div class="tool" data-name="JWT Token Inspector" data-cat="Crypto" data-tool="jwt"><span class="ico">🧩</span><h3>JWT Inspector</h3><p>Decode token header and payload locally.</p></div>
+<div class="tool" data-name="Digital Forensics File Analysis" data-cat="Analysis" data-tool="forensics"><span class="ico">🕵️</span><h3>Forensics Sample Lab</h3><p>Analyze sample evidence and generate reports.</p></div>
+<div class="tool" data-name="Incident Response SOC CTF" data-cat="Network" data-tool="incident"><span class="ico">🚨</span><h3>Incident Response</h3><p>Practice handling a fictional security incident.</p></div>
+</div>
+
+<section class="workspace" id="workspace" hidden>
+<h2 id="workTitle">Tool</h2>
+<p class="muted" id="workDesc"></p>
+<div id="workBody"></div>
+<div id="workOutput" class="output" aria-live="polite">Select an action to begin.</div>
+<div class="row"><button class="btn" id="clearOutput">Clear Result</button><button class="btn" id="closeTool">Close Tool</button></div>
+</section>
+<div class="note">সতর্কতা: Network scan এখানে কাল্পনিক। Facebook/WhatsApp/imo টুলগুলো অ্যাকাউন্টে প্রবেশ করে না; এগুলো নিরাপত্তা শেখার ডেমো। অন্যের অ্যাকাউন্ট বা ডিভাইস পরীক্ষা করবেন না।</div>
+</main>
+<footer>VYRONIX Cyber Lab · Educational Security Tools · Authorized Use Only</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+let activeCategory="All",opened=new Set(),currentTool="";
+const descriptions={
+terminal:"এই terminal একটি সিমুলেটর; ফোন বা সার্ভারে বাস্তব কমান্ড চালায় না।",
+network:"এটি শুধু কাল্পনিক ল্যাবের sample host দেখায়। কোনো বাস্তব IP scan করা হয় না।",
+password:"গোপন বা গুরুত্বপূর্ণ পাসওয়ার্ড অনলাইনে দেবেন না। এই পরীক্ষা আপনার ব্রাউজারেই চলে।",
+hash:"SHA-256 hash এই ব্রাউজারেই তৈরি হয়। Hash মূল লেখায় ফিরিয়ে নেওয়ার উপায় নয়।",
+base64:"Base64 এনক্রিপশন নয়; এটি text encoding।",
+url:"URL-এর গঠন ও সাধারণ ঝুঁকির লক্ষণ দেখুন; এটি পূর্ণ malware scan নয়।",
+phone:"এটি শুধু ফরম্যাট ও country code যাচাই করে; মালিক বা লোকেশন খুঁজে বের করে না।",
+facebook:"শুধু নিজের অ্যাকাউন্ট সুরক্ষিত করুন। অফিসিয়াল রিকভারি: facebook.com/login/identify",
+whatsapp:"OTP কাউকে দেবেন না। Linked devices এবং two-step verification পরীক্ষা করুন।",
+imo:"ভেরিফিকেশন কোড কাউকে দেবেন না। অফিসিয়াল অ্যাপের recovery নির্দেশনা অনুসরণ করুন।",
+accounts:"প্রতিটি অ্যাকাউন্টে unique password, two-step verification এবং recovery email ব্যবহার করুন।",
+phishing:"প্রেরকের পরিচয়, domain, জরুরি ভাষা, অপ্রত্যাশিত attachment ও OTP চাওয়ার বিষয়গুলো দেখুন।",
+web:"এই উদাহরণে input নিরাপদভাবে text হিসেবে দেখানো হয়; কোনো বাস্তব সাইটে পরীক্ষা করা হয় না।",
+jwt:"JWT payload decode করলে signature যাচাই হয় না। আসল token শেয়ার করবেন না।",
+forensics:"শুধু নমুনা ডেটা বিশ্লেষণ করুন এবং মূল evidence অপরিবর্তিত রাখুন।",
+incident:"কাল্পনিক incident-এর জন্য triage এবং response checklist।"
+};
+function output(text){$("workOutput").textContent=text}
+function field(id,label,placeholder,type="text"){
+return `<label for="${id}">${label}</label><input id="${id}" type="${type}" placeholder="${placeholder}">`;
+}
+function area(id,label,placeholder){
+return `<label for="${id}">${label}</label><textarea id="${id}" placeholder="${placeholder}"></textarea>`;
+}
+function button(id,text){return `<button class="btn primary" id="${id}">${text}</button>`}
+function setupTool(tool){
+currentTool=tool;
+$("workspace").hidden=false;
+$("workTitle").textContent=document.querySelector(`[data-tool="${tool}"] h3`).textContent;
+$("workDesc").textContent=descriptions[tool]||"শিক্ষামূলক ডেমো";
+let html="";
+if(tool==="terminal"){
+html=field("cmd","Demo command","help, whoami, date, ls, scan-demo")+button("runCmd","Run command");
+}
+if(tool==="network"){
+html='<p class="muted">Sample network: LAB-NET-01</p>'+button("scanDemo","Run simulated scan");
+}
+if(tool==="password"){
+html=field("pw","Password to assess","Enter locally; do not reuse a real password","password")+button("checkPw","Check strength");
+}
+if(tool==="hash"){
+html=area("hashText","Text to hash","Enter sample text")+button("makeHash","Generate SHA-256");
+}
+if(tool==="base64"){
+html=area("b64Text","Text or Base64","Enter text")+`<div class="row">${button("encode64","Encode")}${button("decode64","Decode")}</div>`;
+}
+if(tool==="url"){
+html=field("urlText","URL to inspect","https://example.com")+button("analyzeUrl","Analyze URL");
+}
+if(tool==="phone"){
+html=field("phoneText","Phone number","e.g. +8801XXXXXXXXX")+button("checkPhone","Check format");
+}
+if(["facebook","whatsapp","imo","accounts"].includes(tool)){
+const brand={facebook:"Facebook",whatsapp:"WhatsApp",imo:"imo",accounts:"Instagram / Telegram / Gmail"}[tool];
+html=`<h3>${brand} safety checklist</h3><ul><li>শুধু অফিসিয়াল অ্যাপ বা ওয়েবসাইট ব্যবহার করুন।</li><li>OTP, password বা recovery code কাউকে দেবেন না।</li><li>অচেনা লগইন ও linked devices পরীক্ষা করুন।</li><li>Two-step verification চালু করুন।</li></ul>`+button("showSafety","Show security checklist");
+}
+if(tool==="phishing"){
+html=area("messageText","Sample message / link","Paste a fictional suspicious message")+button("checkPhishing","Analyze warning signs");
+}
+if(tool==="web"){
+html=area("sampleInput","Untrusted sample input","Example: &lt;script&gt;alert(1)&lt;/script&gt;")+button("testInput","Safely display input");
+}
+if(tool==="jwt"){
+html=area("jwtText","JWT token","Paste a sample token only")+button("decodeJwt","Decode header and payload");
+}
+if(tool==="forensics"){
+html=button("sampleEvidence","Analyze sample evidence");
+}
+if(tool==="incident"){
+html='<p>Choose the first response to a suspected compromised account.</p><select id="incidentChoice"><option value="">Choose an action</option><option value="isolate">Limit access and secure the affected account</option><option value="ignore">Ignore the alert</option><option value="share">Share the OTP with a stranger</option></select>'+button("incidentRun","Review response");
+}
+$("workBody").innerHTML=html;
+$("workspace").scrollIntoView({behavior:"smooth",block:"start"});
+opened.add(tool);$("doneCount").textContent=opened.size;
+const bind=(id,fn)=>{const el=$(id);if(el)el.addEventListener("click",fn)};
+bind("runCmd",()=>{
+let c=$("cmd").value.trim().toLowerCase();
+const answers={help:"Available demo commands: help, whoami, date, ls, scan-demo",whoami:"student@vyronix-lab",ls:"Documents/  Samples/  Reports/", "scan-demo":"Simulated only: host lab-gateway is UP; sample ports 80 and 443 shown.",date:new Date().toString()};
+output(answers[c]||"Unknown demo command. Type help to see supported commands.");
+});
+bind("scanDemo",()=>output("SIMULATED RESULTS\nLAB-GATEWAY  192.0.2.1  UP\nWEB-SAMPLE   192.0.2.10 UP\nPort 80: SAMPLE OPEN\nPort 443: SAMPLE OPEN\nNo real network traffic was sent."));
+bind("checkPw",()=>{
+let p=$("pw").value;if(!p){output("Enter a sample password.");return}
+let score=0;if(p.length>=12)score++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))score++;if(/\d/.test(p))score++;if(/[^A-Za-z0-9]/.test(p))score++;
+output("Estimated strength: "+(["Very weak","Weak","Fair","Good","Stronger"][score])+"\nLength: "+p.length+" characters\nUse a unique password and a password manager. This is only a rough estimate.");
+});
+bind("makeHash",async()=>{
+try{let data=new TextEncoder().encode($("hashText").value);let digest=await crypto.subtle.digest("SHA-256",data);output([...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,"0")).join(""))}catch(e){output("SHA-256 unavailable in this browser context. Try opening the deployed HTTPS site.")};
+});
+bind("encode64",()=>{try{output(btoa(unescape(encodeURIComponent($("b64Text").value))))}catch(e){output("Could not encode this text.")}});
+bind("decode64",()=>{try{output(decodeURIComponent(escape(atob($("b64Text").value.trim()))))}catch(e){output("Invalid Base64 input.")}});
+bind("analyzeUrl",()=>{
+try{
+let raw=$("urlText").value.trim();let u=new URL(raw);
+let warnings=[];if(u.protocol!=="https:")warnings.push("Not HTTPS");if(u.username||u.password)warnings.push("URL contains embedded credentials");if(u.hostname.includes("xn--"))warnings.push("Punycode domain; verify carefully");if(/login|verify|secure|account|update/i.test(u.hostname))warnings.push("Domain contains a commonly abused word; this alone does not prove fraud");
+output("Host: "+u.hostname+"\nProtocol: "+u.protocol+"\nPort: "+(u.port||"default")+"\n"+(warnings.length?"Warnings:\n- "+warnings.join("\n- "):"No basic warning pattern detected.")+"\nThis is not a definitive safety verdict.");
+}catch(e){output("Invalid URL. Include https:// or http://")};
+});
+bind("checkPhone",()=>{
+let p=$("phoneText").value.trim();let cleaned=p.replace(/[()\s-]/g,"");
+if(!/^\+?[0-9]{7,15}$/.test(cleaned)){output("Format looks invalid. Use digits and optional leading +.");return}
+output("Number format: plausible\nDigits: "+cleaned.replace(/\D/g,"").length+"\nCountry code: "+(cleaned.startsWith("+")?cleaned.match(/^\+\d{1,3}/)?.[0]:"Not supplied")+"\nThis does not identify the owner, location or carrier.");
+});
+bind("showSafety",()=>output("SECURITY CHECKLIST\n1. Change a compromised password using the official service.\n2. Sign out unfamiliar sessions/devices.\n3. Enable two-step verification.\n4. Review recovery email and phone.\n5. Never share OTP or recovery codes.\n6. Report impersonation through official support."));
+bind("checkPhishing",()=>{
+let t=$("messageText").value;if(!t.trim()){output("Enter a sample message first.");return}
+let signs=[];if(/urgent|immediately|suspend|verify now|জরুরি|বন্ধ হয়ে যাবে/i.test(t))signs.push("Urgency or threat language");if(/password|otp|verification code|পাসওয়ার্ড|কোড/i.test(t))signs.push("Requests sensitive credentials");if(/bit\.ly|tinyurl|t\.co/i.test(t))signs.push("Shortened link");if(/free money|prize|won|পুরস্কার|ফ্রি টাকা/i.test(t))signs.push("Unexpected prize or money claim");
+output("Possible warning signs:\n"+(signs.length?signs.map(s=>"- "+s).join("\n"):"No listed pattern detected.")+"\nManual verification is still necessary.");
+});
+bind("testInput",()=>output("Safe text preview:\n"+$("sampleInput").value+"\n\nInput was displayed as text, not executed as HTML."));
+bind("decodeJwt",()=>{
+try{
+let parts=$("jwtText").value.trim().split(".");if(parts.length<2)throw Error();
+let dec=s=>JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g,"+").replace(/_/g,"/")))));
+output("HEADER:\n"+JSON.stringify(dec(parts[0]),null,2)+"\nPAYLOAD:\n"+JSON.stringify(dec(parts[1]),null,2)+"\nWarning: signature was NOT verified.");
+}catch(e){output("Could not decode. Enter a valid sample JWT.")};
+});
+bind("sampleEvidence",()=>output("SAMPLE FORENSICS REPORT\nFile: evidence-sample.txt\nSHA-256: sample-only-not-a-real-hash\nSource: training dataset\nFinding: no real file was examined."));
+bind("incidentRun",()=>{
+let v=$("incidentChoice").value;
+output(v==="isolate"?"Good first step. Secure the account, revoke unknown sessions, change credentials through the official service, preserve evidence and notify the responsible team.":v==="ignore"?"Not recommended. Verify the alert and investigate using an approved incident-response process.":v==="share"?"Unsafe. Never share OTPs or recovery codes.":"Choose a response first.");
+});
+}
+document.querySelectorAll(".tool").forEach(card=>card.addEventListener("click",()=>setupTool(card.dataset.tool)));
+$("search").addEventListener("input",filterTools);
+document.querySelectorAll("[data-cat]").forEach(b=>b.addEventListener("click",()=>{
+activeCategory=b.dataset.cat;
+document.querySelectorAll("[data-cat]").forEach(x=>x.classList.toggle("active",x===b));
+filterTools();
+}));
+function filterTools(){
+let q=$("search").value.toLowerCase();let shown=0;
+document.querySelectorAll(".tool").forEach(c=>{
+let ok=c.textContent.toLowerCase().includes(q)||c.dataset.name.toLowerCase().includes(q);
+if(activeCategory!=="All"&&c.dataset.cat!==activeCategory)ok=false;
+c.hidden=!ok;if(ok)shown++;
+});
+$("toolCount").textContent=shown;
+}
+$("clearOutput").addEventListener("click",()=>output("Result cleared."));
+$("closeTool").addEventListener("click",()=>{$("workspace").hidden=true;currentTool="";});
+</script>
+</body>
+</html>
