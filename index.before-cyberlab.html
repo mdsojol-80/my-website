@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b12">
+<title>VYRONIX AI Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#090b12;--panel:#111521;--line:#252b3b;--text:#f4f6ff;--muted:#929bb1;--accent:#8b5cf6;--cyan:#22d3ee}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#17152d 0,#090b12 55%);color:var(--text);font-family:system-ui,-apple-system,Arial,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 6%;border-bottom:1px solid #ffffff12;position:sticky;top:0;background:#090b12ed;backdrop-filter:blur(14px);z-index:5}
+.logo{font-weight:900;letter-spacing:2px;font-size:19px}.logo span{color:var(--cyan)}
+.status{font-size:12px;color:#9de8d0;border:1px solid #2c6958;padding:7px 10px;border-radius:20px}
+main{max-width:1100px;margin:auto;padding:42px 20px 70px}
+.hero{text-align:center;padding:25px 0 35px}
+.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:3px;font-weight:800}
+h1{font-size:clamp(36px,7vw,68px);line-height:1.05;margin:17px 0;background:linear-gradient(100deg,#fff,#b7a4ff 50%,#67e8f9);color:transparent;background-clip:text}
+.hero p{color:var(--muted);max-width:590px;margin:0 auto;line-height:1.7}
+.panel{background:linear-gradient(145deg,#141827,#0e111b);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 15px 50px #0003}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:20px}
+.tab{border:1px solid var(--line);background:#0c101a;color:#aab2c7;border-radius:12px;padding:13px 5px;font-weight:700;cursor:pointer}
+.tab.active{color:white;border-color:var(--accent);background:#7046d82a;box-shadow:inset 0 0 0 1px #8b5cf633}
+h2{font-size:20px;margin:5px 0 8px}.muted{color:var(--muted);font-size:13px;line-height:1.6}
+label{display:block;font-size:13px;font-weight:700;margin:18px 0 9px}
+textarea,input,select{width:100%;border:1px solid var(--line);border-radius:11px;background:#090c14;color:white;padding:13px;font:inherit;outline:none}
+textarea:focus,input:focus,select:focus{border-color:var(--accent)}
+textarea{min-height:110px;resize:vertical}
+button.primary{border:0;border-radius:11px;padding:13px 17px;color:white;font-weight:800;background:linear-gradient(100deg,#7046d8,#386fe8);cursor:pointer;width:100%;margin-top:14px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.preview{min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px dashed #353b50;border-radius:14px;padding:20px;background:#0a0d15}
+.preview .symbol{font-size:42px;margin-bottom:10px}
+iframe{width:100%;height:900px;border:1px solid var(--line);border-radius:14px;background:#0b0e17}
+.note{background:#211b35;border:1px solid #49376c;border-radius:12px;padding:13px;color:#d8ceff;font-size:13px;line-height:1.65;margin:15px 0}
+.featuregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.feature{border:1px solid var(--line);background:#101420;border-radius:14px;padding:16px}
+.feature b{display:block;margin:8px 0}.feature p{color:var(--muted);font-size:12px;line-height:1.5;margin-bottom:0}
+footer{text-align:center;padding:25px;color:#727b91;border-top:1px solid #ffffff12;font-size:12px}
+[hidden]{display:none!important}
+@media(max-width:600px){header{padding:16px 5%}main{padding:25px 13px 45px}.panel{padding:14px}.featuregrid{grid-template-columns:1fr}.tabs{gap:5px}.tab{font-size:12px}iframe{height:800px}}
+
+.social-footer{margin-top:35px;padding:30px 6%;text-align:center;border-top:1px solid #ffffff12;background:linear-gradient(180deg,#090b12,#101323)}
+.social-footer .logo{font-size:22px;font-weight:800;letter-spacing:1px;color:#f5f7ff}
+.social-footer .logo span{color:#8b5cf6}
+.social-footer p{color:#8992a8;font-size:13px}
+.social-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px auto;max-width:650px}
+.social-links a{color:#dce5ff;text-decoration:none;padding:10px 14px;border:1px solid #30364a;border-radius:10px;background:#141827;transition:border-color .2s,color .2s}
+.social-links a:hover{border-color:#8b5cf6;color:#22d3ee}
+.social-footer .copyright{font-size:11px;margin-top:22px}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">VYRONIX <span>AI</span></div>
+  <div class="status">● STUDIO</div>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">YOUR CREATIVE WORKSPACE</div>
+    <h1>Imagine it.<br>Make it real.</h1>
+    <p>One place for creative AI experiments, video ideas and voice tools. Start with video generation and explore what you can create.</p>
+  </section>
+
+  <section class="panel">
+    <div class="tabs">
+      <button class="tab active" data-tab="video">🎬 AI Video</button>
+      <button class="tab" data-tab="image">🖼️ AI Image</button>
+      <button class="tab" data-tab="voice">🎙️ AI Voice</button>
+    </div>
+
+    <div id="video">
+      <h2>AI Video Generator</h2>
+      <p class="muted">Open the video generator below to enter a prompt and create a clip. Generation availability depends on the external service.</p>
+      <div class="note">This connects to an external AI service. It may require sign-in, may have a queue, and can become unavailable or impose free-use limits.</div>
+      <iframe title="External AI video generator" src="https://huggingface.co/spaces/Lightricks/ltx-video-distilled" loading="lazy" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+      <p class="muted">If the generator does not load inside this page, <a style="color:#9de8ff" href="https://huggingface.co/spaces/Lightricks/ltx-video-distilled" target="_blank" rel="noopener">open the video generator directly</a>.</p>
+    </div>
+
+    <div id="image" hidden>
+      <h2>AI Image Prompt Studio</h2>
+      <p class="muted">Write and copy a detailed image prompt for use with an image-generation service.</p>
+      <label for="imagePrompt">Describe your image</label>
+      <textarea id="imagePrompt" placeholder="Example: cinematic landscape at sunrise, realistic lighting, detailed clouds, wide composition..."></textarea>
+      <button class="primary" id="copyImage">Copy image prompt</button>
+      <div id="imageMessage" class="muted" aria-live="polite"></div>
+      <div class="note">This tool prepares a prompt; it does not generate an image on this page yet.</div>
+    </div>
+
+    <div id="voice" hidden>
+      <h2>Text to Voice</h2>
+      <p class="muted">Use your device's built-in speech engine to read text aloud. This is browser speech, not an AI-generated downloadable audio file.</p>
+      <label for="voiceText">Text to speak</label>
+      <textarea id="voiceText" placeholder="Type something you want to hear..."></textarea>
+      <label for="voiceLanguage">Voice language</label>
+      <select id="voiceLanguage">
+        <option value="en-US">English (US)</option>
+        <option value="en-GB">English (UK)</option>
+        <option value="bn-BD">বাংলা (বাংলাদেশ) — if available on your device</option>
+        <option value="hi-IN">Hindi</option>
+      </select>
+      <button class="primary" id="speak">▶ Speak</button>
+      <button class="primary" id="stopSpeak" style="background:#292f40">■ Stop voice</button>
+      <div id="voiceMessage" class="muted" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="featuregrid">
+    <div class="feature"><span>🎞️</span><b>Video creation</b><p>Access an external text-to-video generator from this studio.</p></div>
+    <div class="feature"><span>✨</span><b>Prompt workspace</b><p>Write and copy ideas for your next creative project.</p></div>
+    <div class="feature"><span>🔊</span><b>Voice playback</b><p>Read text aloud using supported voices on your device.</p></div>
+  </section>
+</main>
+
+<footer class="social-footer">
+  <div class="logo">VYRONIX <span>AI</span></div>
+  <p>Creative tools in one workspace.</p>
+  <nav class="social-links" aria-label="VYRONIX social links">
+    <a href="https://www.facebook.com/share/19sxStDtHV/" target="_blank" rel="noopener noreferrer">Facebook</a>
+    <a href="https://t.me/sojol1278ain" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a href="https://www.youtube.com/@VyronixOfficial9" target="_blank" rel="noopener noreferrer">YouTube</a>
+    <a href="https://github.com/mdsojol-80/my-website" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="mailto:mdshojolhossain04@gmail.com">Contact Email</a>
+  </nav>
+  <p class="copyright">© 2026 VYRONIX AI Studio · All rights reserved.</p>
+</footer>
+
+<script>
+document.querySelectorAll(".tab").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b===button));
+    ["video","image","voice"].forEach(id=>document.getElementById(id).hidden=id!==button.dataset.tab);
+  });
+});
+document.getElementById("copyImage").addEventListener("click",async()=>{
+  const value=document.getElementById("imagePrompt").value.trim();
+  const msg=document.getElementById("imageMessage");
+  if(!value){msg.textContent="Write an image prompt first.";return;}
+  try{await navigator.clipboard.writeText(value);msg.textContent="Prompt copied.";}
+  catch(e){const t=document.getElementById("imagePrompt");t.select();msg.textContent="Select and copy the prompt manually.";}
+});
+document.getElementById("speak").addEventListener("click",()=>{
+  const text=document.getElementById("voiceText").value.trim();
+  const msg=document.getElementById("voiceMessage");
+  if(!text){msg.textContent="Type some text first.";return;}
+  if(!("speechSynthesis" in window)){msg.textContent="Speech playback is not supported by this browser.";return;}
+  speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang=document.getElementById("voiceLanguage").value;
+  utterance.onstart=()=>msg.textContent="Speaking…";
+  utterance.onend=()=>msg.textContent="Finished.";
+  utterance.onerror=()=>msg.textContent="Could not play this voice on your device.";
+  speechSynthesis.speak(utterance);
+});
+document.getElementById("stopSpeak").addEventListener("click",()=>{
+  if("speechSynthesis" in window)speechSynthesis.cancel();
+  document.getElementById("voiceMessage").textContent="Playback stopped.";
+});
+</script>
+</body>
+</html>
