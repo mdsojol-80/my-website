@@ -70,13 +70,18 @@ export default function VoiceStudio() {
         }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
+        const data = await res.json();
         throw new Error(data.error || "ভয়েস তৈরি করা যায়নি।");
       }
 
-      setAudioUrl(data.audioUrl);
+      const blob = await res.blob();
+
+      if (!blob.size || !blob.type.includes("audio")) {
+        throw new Error("সঠিক অডিও পাওয়া যায়নি।");
+      }
+
+      setAudioUrl(URL.createObjectURL(blob));
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "একটি সমস্যা হয়েছে।"
