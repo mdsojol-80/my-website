@@ -1,8 +1,6 @@
+
 import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "node:crypto";
-import { mkdir, writeFile, rm } from "node:fs/promises";
-import path from "node:path";
-import { spawn } from "node:child_process";
+import { EdgeTTS } from "node-edge-tts";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -12,104 +10,78 @@ const VOICES = [
   "bn-BD-NabanitaNeural",
 ];
 
-function run(command: string, args: string[]) {
-  return new Promise<void>((resolve, reject) => {
-    const child = spawn(command, args);
-    let error = "";
-
-    child.stderr.on("data", (data) => {
-      error += data.toString();
-    });
-
-    child.on("error", reject);
-    child.on("close", (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(error.slice(-1500) || `${command} failed`));
-    });
-  });
-}
-
 export async function POST(req: NextRequest) {
-  let body: unknown;
-
   try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
-  }
+    const body = await req.json();
+    const lines = body?.lines;
 
-  const lines = (body as { lines?: unknown })?.lines;
-
-  if (!Array.isArray(lines) || lines.length === 0 || lines.length > 20) {
-    return NextResponse.json(
-      { error: "১ থেকে ২০টি সংলাপ দিতে হবে।" },
-      { status: 400 }
-    );
-  }
-
-  for (const line of lines) {
     if (
-      !line ||
-      typeof line.text !== "string" ||
-      !line.text.trim() ||
-      line.text.length > 500 ||
-      !VOICES.includes(line.voice)
+      !Array.isArray(lines) ||
+      lines.length < 1 ||
+      lines.length > 20
     ) {
       return NextResponse.json(
-        { error: "সংলাপ বা ভয়েস নির্বাচন সঠিক নয়।" },
+        { error: "১ থেকে ২০টি সংলাপ দিতে হবে।" },
         { status: 400 }
       );
     }
-  }
 
-  const id = randomUUID();
-  const outputDir = path.join(process.cwd(), "public", "generated", id);
-  const files: string[] = [];
-
-  try {
-    await mkdir(outputDir, { recursive: true });
-
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i] as { text: string; voice: string };
-      const file = path.join(outputDir, `${i}.mp3`);
-
-      await run("edge-tts", [
-        "--voice", line.voice,
-        "--text", line.text.trim(),
-        "--write-media", file,
-      ]);
-
-      files.push(file);
+    for (const line of lines) {
+      if (
+        !line ||
+        typeof line.text !== "string" ||
+        !line.text.trim() ||
+        line.text.length > 500 ||
+        !VOICES.includes(line.voice)
+      ) {
+        return NextResponse.json(
+          { error: "সংলাপ বা ভয়েস নির্বাচন সঠিক নয়।" },
+          { status: 400 }
+        );
+      }
     }
 
-    const listFile = path.join(outputDir, "list.txt");
-    const list = files
-      .map((file) => `file '${file.replace(/'/g, "'\\''")}'`)
-      .join("\n");
+    const audioParts: Buffer[] = [];
 
-    await writeFile(listFile, list);
+    for (const line of lines) {
+      const tts = new EdgeTTS({
+        voice: line.voice,
+        lang: "bn-BD",
+        timeout: 60000,
+      });
 
-    const finalFile = path.join(outputDir, "dialogue.mp3");
+      for await (const chunk of tts.streamAudio(line.text.trim())) {
+        if (Buffer.isBuffer(chunk)) {
+          audioParts.push(chunk);
+        }
+      }
+    }
 
-    await run("ffmpeg", [
-      "-y",
-      "-f", "concat",
-      "-safe", "0",
-      "-i", listFile,
-      "-c:a", "libmp3lame",
-      "-b:a", "128k",
-      finalFile,
-    ]);
+    if (audioParts.length === 0) {
+      throw new Error("কোনো অডিও পাওয়া যায়নি।");
+    }
 
-    return NextResponse.json({
-      audioUrl: `/generated/${id}/dialogue.mp3`,
-      count: lines.length,
+    const audio = Buffer.concat(audioParts);
+
+    return new NextResponse(new Uint8Array(audio), {
+      status: 200,
+      headers: {
+        "Content-Type": "audio/mpeg",
+        "Content-Disposition": 'attachment; filename="VYRONIX-dialogue.mp3"',
+        "Cache-Control": "no-store",
+      },
     });
   } catch (error) {
-    await rm(outputDir, { recursive: true, force: true });
-    const message =
-      error instanceof Error ? error.message : "Voice generation failed.";
+    console.error("Voice generation error:", error);
 
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "ভয়েস তৈরি করা যায়নি। আবার চেষ্টা করুন।",
+      },
+      { status: 500 }
+    );
   }
 }
